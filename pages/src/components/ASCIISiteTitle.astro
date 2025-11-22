@@ -1,0 +1,37 @@
+---
+import { blockyTextToSVG } from '../utils/alphabet';
+
+// Generate blocky pixel-art logo using the new alphabet module
+// Note: Using 'light' theme with adjusted blockSize and charSpacing
+// Full project title: "WARCRAFT NOTIFICATIONS" (flexible for variable-length titles)
+const logoSVG = blockyTextToSVG('WARCRAFT NOTIFICATIONS', {
+	theme: 'light',
+	blockSize: 5, // Reduced from 6 to accommodate longer text while maintaining height
+	charSpacing: 1, // In block units (1 block = 5px spacing with blockSize: 5)
+});
+---
+
+<a href={`${import.meta.env.BASE_URL}`} class="site-title">
+	<div set:html={logoSVG} class="logo-container" />
+	<span class="sr-only">Warcraft Notifications</span>
+</a>
+
+<style>
+	.site-title {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.logo-container :global(svg) {
+		width: auto;
+		height: 2.5rem;
+	}
+
+	@media (min-width: 50rem) {
+		.logo-container :global(svg) {
+			height: 2.625rem;
+		}
+	}
+</style>
