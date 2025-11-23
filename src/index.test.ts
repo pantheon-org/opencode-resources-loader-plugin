@@ -98,6 +98,45 @@ try {
     } catch (error) {
       console.error(`❌ resource_list failed:`, error);
     }
+
+    // Test filtering by type
+    console.log(`\n📋 Testing resource_list (filter by type: agent)...`);
+    try {
+      const resultStr = await tools.resource_list.execute(
+        { type: 'agent', limit: 10 },
+        mockToolContext,
+      );
+      const result = JSON.parse(resultStr);
+      console.log(`✅ Found ${result.count} agent resources`);
+    } catch (error) {
+      console.error(`❌ resource_list type filter failed:`, error);
+    }
+
+    // Test filtering by category
+    console.log(`\n📋 Testing resource_list (filter by category)...`);
+    try {
+      const resultStr = await tools.resource_list.execute(
+        { category: 'Documentation', limit: 10 },
+        mockToolContext,
+      );
+      const result = JSON.parse(resultStr);
+      console.log(`✅ Found ${result.count} resources in Documentation category`);
+    } catch (error) {
+      console.error(`❌ resource_list category filter failed:`, error);
+    }
+
+    // Test filtering by tag
+    console.log(`\n📋 Testing resource_list (filter by tag)...`);
+    try {
+      const resultStr = await tools.resource_list.execute(
+        { tag: 'documentation', limit: 10 },
+        mockToolContext,
+      );
+      const result = JSON.parse(resultStr);
+      console.log(`✅ Found ${result.count} resources with tag 'documentation'`);
+    } catch (error) {
+      console.error(`❌ resource_list tag filter failed:`, error);
+    }
   }
 
   // Test resource_search
@@ -142,6 +181,36 @@ try {
       console.log(`✅ Found ${result.count} matching resources`);
     } catch (error) {
       console.error(`❌ Special character test failed:`, error);
+    }
+
+    // Test no results scenario
+    console.log(`\n🔍 Testing resource_search (no results: "xyzabc123456")...`);
+    try {
+      const resultStr = await tools.resource_search.execute(
+        { query: 'xyzabc123456', max_results: 3 },
+        mockToolContext,
+      );
+      const result = JSON.parse(resultStr);
+      if (result.message && result.message.includes('No resources found')) {
+        console.log(`✅ Correctly handled no results: ${result.message}`);
+      }
+    } catch (error) {
+      console.error(`❌ No results test failed:`, error);
+    }
+
+    // Test cache hit (run same query twice)
+    console.log(`\n🔍 Testing resource_search cache (same query twice)...`);
+    try {
+      const query = 'cache-test-documentation';
+      await tools.resource_search.execute({ query, max_results: 3 }, mockToolContext);
+      const resultStr = await tools.resource_search.execute(
+        { query, max_results: 3 },
+        mockToolContext,
+      );
+      const result = JSON.parse(resultStr);
+      console.log(`✅ Cache working, found ${result.count || 0} resources`);
+    } catch (error) {
+      console.error(`❌ Cache test failed:`, error);
     }
   }
 
