@@ -193,6 +193,21 @@ export const ResourceLoaderPlugin: Plugin = async (ctx) => {
       const cacheKey = `${query}:${type || 'all'}:${max_results}`;
       const cached = getCachedSearch(cacheKey);
       if (cached) {
+        // Ensure cached empty results use the same "no results" response shape
+        if (cached.length === 0) {
+          const categories = Array.from(index.byCategory.keys());
+          return JSON.stringify({
+            results: [],
+            message: `No resources found matching '${query}'`,
+            suggestions: [
+              'Try broader search terms',
+              'Check spelling',
+              "Use resource_list({ type: 'all' }) to see all available resources",
+            ],
+            availableCategories: categories,
+          });
+        }
+
         return JSON.stringify(formatSearchResults(cached));
       }
 
