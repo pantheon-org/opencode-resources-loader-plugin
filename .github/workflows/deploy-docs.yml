@@ -51,11 +51,22 @@ jobs:
           node transform-docs.js
           echo "✅ Documentation transformed from ./docs/ to ./pages/src/content/docs/"
 
-      - name: Build and upload with Astro action
-        uses: withastro/action@v3
-        with:
-          path: ./pages
-          package-manager: bun@latest
+      - name: Build site
+        working-directory: ./pages
+        run: |
+          bun run generate-favicon
+          bun run transform
+          bun run build
+          echo "✅ Site built"
+
+      - name: List dist contents (post-build)
+        working-directory: ./pages
+        run: |
+          echo "== Dist tree (post-build) =="
+          find dist -maxdepth 2 -type f -print | sort
+          echo
+          echo "== Dist root listing =="
+          ls -la dist || true
 
       - name: Verify internal links
         working-directory: ./pages
@@ -63,6 +74,18 @@ jobs:
           bun run fix-links
           bun run verify
           echo "✅ All internal links verified"
+
+      - name: Archive dist listing (pre-upload)
+        working-directory: ./pages
+        run: |
+          echo "== Archive candidate listing =="
+          tar -cf /tmp/dist.tar -C dist .
+          tar -tf /tmp/dist.tar | sed -n '1,200p'
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./pages/dist
 
   deploy:
     name: Deploy to GitHub Pages
