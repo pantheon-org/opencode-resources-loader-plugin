@@ -60,6 +60,7 @@ jobs:
       - name: Verify internal links
         working-directory: ./pages
         run: |
+          bun run fix-links
           bun run verify
           echo "✅ All internal links verified"
 
