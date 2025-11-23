@@ -8,11 +8,12 @@ import { addResourceError, clearResourceError } from './resource-errors';
  *
  * Looks for a YAML frontmatter block at the top of the file delimited by
  * triple dashes (---). Returns the parsed frontmatter object when present
- * and valid, otherwise returns null and the original content as body.
+ * and valid. When frontmatter is invalid, returns `frontmatter: null` and
+ * provides an `errors` array so callers can decide how to handle the file.
  *
  * @param content - Raw markdown content including optional frontmatter
  * @param filePath - Optional file path used for error reporting
- * @returns Object with parsed frontmatter (or null) and body content
+ * @returns Object with parsed frontmatter (or null), body content, and optional errors
  */
 export const parseFrontmatter = (
   content: string,
@@ -20,6 +21,7 @@ export const parseFrontmatter = (
 ): {
   frontmatter: Frontmatter | null;
   body: string;
+  errors?: unknown[];
 } => {
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) {
@@ -52,7 +54,9 @@ export const parseFrontmatter = (
     } catch (e) {
       // ignore
     }
-    return { frontmatter: null, body: content };
+
+    // Return errors so callers (e.g., discover pipeline) can skip indexing
+    return { frontmatter: null, body: content, errors: validation.errors as unknown[] };
   } catch (error) {
     console.warn(
       `Failed to parse frontmatter:`,
