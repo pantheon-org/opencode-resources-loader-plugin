@@ -22,6 +22,7 @@
  */
 
 /* eslint-disable max-lines */
+/* eslint-disable import/max-dependencies */
 
 import type { Plugin, ToolDefinition } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin';
