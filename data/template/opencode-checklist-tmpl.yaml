@@ -1,0 +1,315 @@
+# OpenCode Checklist Template
+# This YAML template defines the structure for creating comprehensive checklists
+# Use this as a reference when creating new checklist markdown files
+
+# Resource Loader Discovery Fields
+type: template
+description: "Template for creating comprehensive OpenCode checklists with validation criteria"
+category: Development
+tags: [template, opencode, checklist, quality, creation]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Template Structure
+metadata:
+  title: "OpenCode Checklist Template"
+  description: "[Brief description of what this checklist ensures or validates]"
+  version: "1.0.0"
+  last_updated: "YYYY-MM-DD"
+  reference: "[Optional: Reference to related documentation, RFCs, or standards]"
+  category: "[e.g., Documentation, Development, Operations, Quality Assurance]"
+
+# Markdown Frontmatter Example:
+# When creating a checklist markdown file, start with YAML frontmatter:
+#
+# ---
+# title: "API Documentation Checklist"
+# description: "Ensure comprehensive API documentation with proper coverage of all endpoints, authentication, and examples"
+# type: checklist
+# category: documentation
+# version: 1.0.0
+# tags: [api, rest, documentation, quality-assurance]
+# reference: "https://swagger.io/docs/specification/about/"
+# applies_to: [rest-api, graphql-api, microservices]
+# ---
+#
+# # API Documentation Checklist
+#
+# [Rest of markdown content follows...]
+#
+# Field Descriptions:
+# - title: Human-readable checklist name (max 80 chars)
+# - description: Concise description for tool listings (max 150 chars)
+# - type: Always "checklist" for checklist files
+# - category: Primary category (documentation, development, operations, qa)
+# - version: Semantic version (start at 1.0.0)
+# - tags: 5-10 searchable keywords
+# - reference: (Optional) URL or path to related standards/RFCs
+# - applies_to: (Optional) List of project types this checklist applies to
+
+# Structure Guidelines:
+# 1. Start with frontmatter (YAML metadata between --- delimiters)
+# 2. Include an introduction explaining purpose and usage
+# 3. Organize content into major sections (typically 8-12 sections)
+# 4. Each section should contain multiple checkbox items
+# 5. End with quality standards and review checklist
+
+introduction:
+  purpose: "[1-2 paragraphs explaining what this checklist is for and why it's important]"
+  when_to_use: "[Description of scenarios where this checklist should be used]"
+  how_to_use: "[Brief instructions on how to work through the checklist]"
+
+# Main Sections Pattern:
+
+section_template:
+  section_title: "## [Section Number]. [Section Name]"
+  subsections:
+    - title: "### [Subsection Name]"
+      items:
+        - "- [ ] **[Key point in bold]**: [Additional context or explanation]"
+        - "- [ ] [Action item or requirement to verify]"
+        - "- [ ] **[Main item]**:"
+        - "  - [ ] [Sub-item 1]"
+        - "  - [ ] [Sub-item 2]"
+  notes:
+    - "Include examples where helpful"
+    - "Use tables for complex categorization"
+    - "Add code blocks for technical examples"
+    - "Link to related documentation or templates"
+
+# Standard Section Types:
+
+common_section_types:
+  - name: "Overview/Introduction Section"
+    description: "High-level context and scope"
+    typical_items: ["Purpose and objectives", "Scope boundaries", "Key stakeholders", "Success criteria"]
+  
+  - name: "Prerequisites/Requirements Section"
+    description: "What's needed before starting"
+    typical_items: ["Required tools/access", "Skills or knowledge needed", "Dependencies to verify", "Initial setup steps"]
+  
+  - name: "Core Process Sections (3-5 sections)"
+    description: "Main checklist content organized by topic/phase"
+    typical_items: ["Domain-specific requirements", "Step-by-step procedures", "Verification criteria", "Documentation requirements"]
+  
+  - name: "Quality Standards Section"
+    description: "Quality criteria and best practices"
+    typical_items: ["Quality metrics", "Standards to meet", "Common pitfalls to avoid", "Best practices"]
+  
+  - name: "Specialized Sections"
+    description: "Optional sections for specific scenarios"
+    format: "## 📊 Specialized Sections (as applicable)"
+  
+  - name: "Review/Validation Section"
+    description: "Final checks before completion"
+    format: "## 🔍 Review Checklist"
+
+# Formatting Guidelines:
+
+formatting:
+  markdown_structure:
+    headings:
+      h1: "# [Title] - Main document title (use once)"
+      h2: "## [Section] - Major sections (numbered or with emoji)"
+      h3: "### [Subsection] - Subsections within major sections"
+    
+    checkboxes:
+      basic: "- [ ] Item to check"
+      bold_key: "- [ ] **Key Point**: Explanation"
+      nested: "- [ ] Parent item\n  - [ ] Child item (indent 2 spaces)"
+    
+    emphasis:
+      bold: "**[Important terms or key points]**"
+      italic: "_[Emphasis or clarification]_"
+      code: "`[Technical terms or commands]`"
+    
+    code_blocks: "```language\n[Example code or configuration]\n```"
+    
+    tables: "| Header 1 | Header 2 | Header 3 |\n|----------|----------|----------|\n| Item 1   | Item 2   | Item 3   |"
+    
+    separators: "Use --- for horizontal rules between major sections"
+  
+  emoji_usage:
+    section_icons: ["📋 for checklist or requirements sections", "✅ for completion or validation sections", "🎯 for quality standards or goals", "📊 for specialized or conditional sections", "🔍 for review or inspection sections", "🚨 for warnings or critical sections", "🔧 for tools or utilities sections"]
+    note: "Use emojis consistently but sparingly - typically only in H2 headers"
+
+# Content Guidelines:
+
+content_principles:
+  clarity: ["Use clear, action-oriented language", "Avoid ambiguous terms like 'consider' or 'maybe'", "Be specific about what needs to be done or checked", "Define technical terms on first use"]
+  completeness: ["Cover all critical aspects of the topic", "Include both happy path and edge cases", "Address common questions or issues", "Link to related documentation"]
+  actionability: ["Each item should be verifiable (yes/no)", "Include examples where helpful", "Provide specific criteria or thresholds", "Link to tools or processes needed"]
+  organization: ["Group related items together", "Order items logically (sequential or by priority)", "Use consistent formatting throughout", "Balance detail with readability"]
+  audience: ["Consider who will use this checklist", "Adjust technical depth appropriately", "Include context for those less familiar", "Make it self-service when possible"]
+
+# Example Footer Structure:
+
+footer_template: |
+  ---
+  
+  ## [Optional: Scoring/Completion Section]
+  
+  **Completion Rate:** ___ / ___ items (___ %)
+  
+  **Reviewer Name:** ___________
+  **Review Date:** ___________
+  **Next Review Date:** ___________
+  
+  ---
+  
+  ## References
+  
+  - [Link to relevant documentation]
+  - [Link to related templates]
+  - [Link to standards or guidelines]
+
+# Size Guidelines:
+
+recommended_size:
+  minimum_items: 20
+  typical_range: "50-150 checkbox items"
+  maximum_items: 400
+  sections: "8-12 major sections"
+  subsections: "2-5 per major section"
+  note: "Size depends on complexity and scope. Aim for comprehensive but not overwhelming. Break very large checklists into multiple focused checklists."
+
+# Checklist Types by Size:
+
+checklist_types:
+  quick_reference:
+    items: "15-30"
+    sections: "3-5"
+    use_case: "Daily operations, quick verification"
+  
+  standard_process:
+    items: "40-80"
+    sections: "6-10"
+    use_case: "Standard procedures, feature development"
+  
+  comprehensive_assessment:
+    items: "100-200"
+    sections: "10-15"
+    use_case: "Complex evaluations, audits, major initiatives"
+  
+  exhaustive_guide:
+    items: "200+"
+    sections: "12-20"
+    use_case: "Complete standards compliance, enterprise processes"
+
+# Maintenance:
+
+maintenance:
+  review_frequency: "Quarterly or after major changes"
+  update_triggers: ["Process changes", "Tool updates", "Standard revisions", "Feedback from users", "Incident learnings"]
+  version_control: ["Track changes in frontmatter", "Update version number for major changes", "Note last_updated date", "Document significant changes in commit messages"]
+
+# Example Checklist Skeleton:
+
+example_skeleton: |
+  ---
+  title: [Checklist Name]
+  description: [Brief description]
+  version: 1.0.0
+  last_updated: YYYY-MM-DD
+  ---
+  
+  # [Checklist Name]
+  
+  [Introduction paragraph explaining purpose and usage]
+  
+  ## 📋 1. [First Major Section]
+  
+  ### [Subsection A]
+  
+  - [ ] **[Key requirement]**: [Explanation]
+  - [ ] [Another requirement]
+  - [ ] [Third requirement with details]:
+    - [ ] [Sub-requirement 1]
+    - [ ] [Sub-requirement 2]
+  
+  ### [Subsection B]
+  
+  - [ ] [More requirements...]
+  
+  ## ✅ 2. [Second Major Section]
+  
+  [Continue pattern...]
+  
+  ## 🎯 Quality Standards
+  
+  ### [Quality Category]
+  
+  - [ ] [Quality criterion]
+  - [ ] [Another criterion]
+  
+  ## 📊 Specialized Sections (as applicable)
+  
+  ### For [Specific Context]
+  
+  - [ ] [Context-specific items]
+  
+  ## 🔍 Review Checklist
+  
+  Before completion:
+  
+  - [ ] All required sections complete
+  - [ ] Examples tested and working
+  - [ ] Documentation reviewed
+  - [ ] Stakeholder approval obtained
+  
+  ---
+  
+  ## References
+  
+  - [Links to related resources]
+
+# Integration:
+
+integration:
+  with_documentation_commands:
+    description: "Checklists validate documentation quality"
+    usage: "Reference checklists at end of documentation generation"
+  
+  with_quality_processes:
+    description: "Integrate into code review and release processes"
+    note: "Use checklists as gates in CI/CD pipelines or manual review"
+  
+  with_templates:
+    description: "Link to relevant templates for implementation"
+    example: "Checklist validates, template guides creation"
+
+# Common Patterns:
+
+common_patterns:
+  hierarchical_organization:
+    description: "Organize from high-level to detailed"
+    structure: ["Section → Subsection → Item → Sub-item"]
+  
+  progressive_detail:
+    description: "Start simple, add detail progressively"
+    pattern: "Basic item with optional nested details"
+
+# Best Practices:
+
+best_practices:
+  - "Start with a clear purpose statement"
+  - "Use consistent formatting throughout"
+  - "Make each item specific and verifiable"
+  - "Group related items logically"
+  - "Include context where needed"
+  - "Link to supporting documentation"
+  - "Balance completeness with usability"
+  - "Update based on user feedback"
+  - "Test checklist with real users before finalizing"
+  - "Provide examples for complex items"
+
+# References:
+
+references:
+  - name: "Template Standard"
+    path: "docs/template-standard.md"
+    purpose: "Standard template structure"
+  
+  - name: "Example Checklists"
+    path: "checklist/*.md"
+    purpose: "Reference implementations"

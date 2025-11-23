@@ -1,0 +1,419 @@
+# Template Listing Format Template
+# Standard template structure for presenting OpenCode template information
+
+# Resource Loader Discovery Fields
+type: template
+description: "Standardized format for presenting template information in documentation, commands, and agents"
+category: meta
+tags: [template, meta, listing, format, template]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Additional Metadata
+template_title: "Template Listing Format Template"
+reference: "../knowledge-base/template-system-architecture.md"
+
+# Overview:
+# This template defines the standard format for listing and presenting OpenCode templates.
+# Use this when creating documentation, command outputs, or agent responses that need to
+# present template information in a consistent, readable format.
+
+# Structure Guidelines:
+# 1. Group templates by logical categories
+# 2. Include all essential metadata for each template
+# 3. Use consistent formatting across all template entries
+# 4. Provide summary statistics
+# 5. Include usage guidance for each category
+
+structure:
+  header:
+    format: "# Available OpenCode Templates"
+    required: true
+    note: "Main title for template listing"
+  
+  introduction:
+    format: "Brief explanation of what templates are and how they're used"
+    required: true
+    example: |
+      OpenCode templates provide structured guidance for creating consistent resources.
+      Templates are YAML files referenced by creation commands and tasks.
+  
+  category_section:
+    format: |
+      ### [Category Name] Templates
+      
+      [Brief description of category purpose and when to use]
+      
+      - **template-filename.yaml**
+        - Title: [Template title]
+        - Description: [Template description]
+        - Purpose: [When to use this template]
+    required: true
+    note: "Repeat for each category"
+  
+  summary:
+    format: "**Found N templates total: N global, N project**"
+    required: true
+    note: "Provide count statistics"
+  
+  usage_guidance:
+    format: "## How to Use Templates"
+    required: false
+    note: "Optional section explaining template usage"
+
+# Template Entry Format:
+# Each template should be presented with these fields
+
+template_entry:
+  template_filename:
+    format: "**template-name.yaml** or **template-name-tmpl.yaml**"
+    bold: true
+    required: true
+    note: "Exact template filename including extension"
+  
+  title:
+    format: "- Title: [Text from template_title field]"
+    required: true
+    source: "template_title"
+  
+  description:
+    format: "- Description: [Text from template_description field]"
+    required: true
+    source: "template_description"
+  
+  category:
+    format: "- Category: [Category name]"
+    required: false
+    source: "template_category"
+    values: ["meta", "documentation", "workflow", "reference", "domain"]
+  
+  purpose:
+    format: "- Purpose: [Brief explanation of when to use]"
+    required: true
+    note: "Inferred from description or explicitly stated"
+
+# Category Organization:
+# Templates should be grouped into these standard categories
+
+categories:
+  opencode_resources:
+    title: "### OpenCode Resource Templates"
+    description: "Templates for creating OpenCode ecosystem resources"
+    when_to_use: "Building new agents, commands, tasks, checklists, knowledge bases, or templates"
+    typical_templates:
+      - "opencode-agent-tmpl.yaml"
+      - "opencode-command-tmpl.yaml"
+      - "opencode-task-tmpl.yaml"
+      - "opencode-checklist-tmpl.yaml"
+      - "opencode-knowledge-base-tmpl.yaml"
+      - "opencode-template-tmpl.yaml"
+    note: "These are meta-templates that create other resources"
+  
+  documentation:
+    title: "### Documentation Templates"
+    description: "Templates for documentation structure and content"
+    when_to_use: "Creating or standardizing project documentation"
+    typical_templates:
+      - "standard-doc-structure-tmpl.yaml"
+  
+  workflow:
+    title: "### Workflow Templates"
+    description: "Templates for specific workflows and processes"
+    when_to_use: "Executing standardized workflows (ticket creation, tool approval, etc.)"
+    typical_templates:
+      - "jira-ticket-description-tmpl.yaml"
+      - "ai-tool-assessment-report-tmpl.yaml"
+      - "ai-tool-rfc-submission-tmpl.yaml"
+  
+  reference:
+    title: "### Reference Templates"
+    description: "Templates providing reference information and patterns"
+    when_to_use: "Need quick lookup or format guidance"
+    typical_templates:
+      - "common-shell-commands-tmpl.yaml"
+      - "task-reference-template-tmpl.yaml"
+      - "task-listing-format-tmpl.yaml"
+      - "template-listing-format-tmpl.yaml"
+  
+  domain_specific:
+    title: "### Domain-Specific Templates"
+    description: "Templates for specialized domains and use cases"
+    when_to_use: "Working in specialized domains (AI tools, pipelines, security, etc.)"
+    typical_templates:
+      - "ai-tool-assessment-report-tmpl.yaml"
+      - "ai-tool-rfc-submission-tmpl.yaml"
+
+# Complete Example:
+
+example_basic: |
+  # Available OpenCode Templates
+  
+  OpenCode templates provide structured guidance for creating consistent resources.
+  Templates are YAML files referenced by creation commands and tasks.
+  
+  ### OpenCode Resource Templates
+  
+  Templates for creating OpenCode ecosystem resources (meta-templates).
+  
+  **When to use**: Building new agents, commands, tasks, checklists, knowledge bases, or templates
+  
+  - **opencode-agent-tmpl.yaml**
+    - Title: OpenCode Agent Template
+    - Description: Standard template structure for creating OpenCode agents with best practices
+    - Purpose: Use when creating new specialized agents for domain-specific tasks
+  
+  - **opencode-command-tmpl.yaml**
+    - Title: OpenCode Command Template
+    - Description: Standard template structure for creating OpenCode slash commands
+    - Purpose: Use when creating new slash commands for repetitive workflows
+  
+  - **opencode-task-tmpl.yaml**
+    - Title: OpenCode Task Template
+    - Description: Standard template structure for creating reusable task definitions
+    - Purpose: Use when defining complex multi-step workflows
+  
+  - **opencode-checklist-tmpl.yaml**
+    - Title: OpenCode Checklist Template
+    - Description: Template for creating comprehensive checklists
+    - Purpose: Use when creating validation checklists for quality assurance
+  
+  - **opencode-knowledge-base-tmpl.yaml**
+    - Title: OpenCode Knowledge Base Template
+    - Description: Template for creating comprehensive knowledge base documents
+    - Purpose: Use when documenting patterns, best practices, or reference material
+  
+  - **opencode-template-tmpl.yaml**
+    - Title: OpenCode Template Template
+    - Description: Meta-template for creating new templates
+    - Purpose: Use when creating templates for new resource types
+  
+  ### Documentation Templates
+  
+  Templates for documentation structure and content.
+  
+  **When to use**: Creating or standardizing project documentation
+  
+  - **standard-doc-structure-tmpl.yaml**
+    - Title: Standard Documentation Structure
+    - Description: Template for consistent documentation organization
+    - Purpose: Use when creating or updating project documentation
+  
+  ### Workflow Templates
+  
+  Templates for specific workflows and processes.
+  
+  **When to use**: Executing standardized workflows
+  
+  - **jira-ticket-description-tmpl.yaml**
+    - Title: JIRA Ticket Description Template
+    - Description: Template for creating well-structured JIRA tickets
+    - Purpose: Use when creating tickets with consistent format and completeness
+  
+  - **ai-tool-assessment-report-tmpl.yaml**
+    - Title: AI Tool Assessment Report Template
+    - Description: Template for evaluating AI tools and services
+    - Purpose: Use when conducting tool evaluations per RFC 98
+  
+  - **ai-tool-rfc-submission-tmpl.yaml**
+    - Title: AI Tool RFC Submission Template
+    - Description: Template for submitting tool approval RFCs
+    - Purpose: Use when submitting tools for formal approval
+  
+  ### Reference Templates
+  
+  Templates providing reference information and patterns.
+  
+  **When to use**: Need quick lookup or format guidance
+  
+  - **common-shell-commands-tmpl.yaml**
+    - Title: Common Shell Commands Template
+    - Description: Reference template for frequently used shell commands
+    - Purpose: Use as quick reference for common shell operations
+  
+  - **task-listing-format-tmpl.yaml**
+    - Title: Task Listing Format Template
+    - Description: Standardized format for presenting task information
+    - Purpose: Use when documenting or listing OpenCode tasks
+  
+  - **template-listing-format-tmpl.yaml**
+    - Title: Template Listing Format Template
+    - Description: Standardized format for presenting template information
+    - Purpose: Use when documenting or listing OpenCode templates
+  
+  ---
+  
+  **Found 12 templates total: 12 global, 0 project**
+
+example_with_usage_guidance: |
+  # Available OpenCode Templates
+  
+  [Template listings as above...]
+  
+  ---
+  
+  ## How to Use Templates
+  
+  Templates are used by:
+  
+  - **Creation Commands**: Commands load templates to guide resource creation (e.g., `/create-agent` uses `opencode-agent-tmpl.yaml`)
+  - **Creation Tasks**: Tasks reference templates for structure and validation (e.g., `opencode-command` task uses `opencode-command-tmpl.yaml`)
+  - **Validation**: Templates provide requirements for quality checks
+  - **Learning**: Templates teach conventions and best practices
+  
+  ## Template Structure
+  
+  All templates follow YAML format with these sections:
+  
+  1. **Metadata**: title, description, version, category
+  2. **Structure Guidelines**: Required and optional sections
+  3. **Content Principles**: Clarity, completeness, actionability
+  4. **Formatting Standards**: Markdown and style conventions
+  5. **Examples**: Complete working examples
+  6. **Best Practices**: Key recommendations
+  7. **Integration**: How template integrates with other resources
+  
+  ## Template Locations
+  
+  - Global templates: `~/.config/opencode/template/`
+  - Project templates: `.opencode/template/`
+  - Project templates override global templates with the same name
+
+# Formatting Standards:
+
+formatting:
+  headings:
+    h1: "# Available OpenCode Templates"
+    h2: "## [Section like 'How to Use Templates']"
+    h3: "### [Category] Templates"
+  
+  emphasis:
+    template_name: "**template-name.yaml** (bold, include extension)"
+    metadata_label: "- Title: (plain)"
+    metadata_value: "[value] (plain)"
+  
+  lists:
+    template_list: "- **template-name.yaml**"
+    metadata: "  - Label: Value (2-space indent)"
+  
+  separators:
+    between_sections: "---"
+
+# Display Options:
+
+display_options:
+  compact:
+    description: "Minimal display with template name and title only"
+    example: |
+      - **opencode-agent-tmpl.yaml**: OpenCode Agent Template
+      - **opencode-command-tmpl.yaml**: OpenCode Command Template
+  
+  standard:
+    description: "Standard display with name, title, description, purpose"
+    example: |
+      - **opencode-agent-tmpl.yaml**
+        - Title: OpenCode Agent Template
+        - Description: Standard template structure for creating OpenCode agents
+        - Purpose: Use when creating new specialized agents for domain-specific tasks
+  
+  detailed:
+    description: "Full display including all metadata and usage guidance"
+    includes: ["standard fields", "category", "when to use section", "template structure", "locations"]
+
+# Summary Statistics:
+
+summary_format:
+  basic: "**Found N templates total**"
+  detailed: "**Found N templates total: N global, N project**"
+  by_category: |
+    **Found 12 templates total: 12 global, 0 project**
+    
+    By category:
+    - OpenCode Resources: 6 templates
+    - Documentation: 1 template
+    - Workflow: 3 templates
+    - Reference: 3 templates
+    - Domain-Specific: 2 templates (may overlap with other categories)
+
+# Usage Guidelines:
+
+guidelines:
+  when_to_use:
+    - "Documenting available templates in README or guides"
+    - "Creating command output for /list-templates"
+    - "Agent responses explaining template capabilities"
+    - "Template discovery and selection workflows"
+  
+  customization:
+    - "Adjust detail level based on context (compact, standard, detailed)"
+    - "Filter by category if only subset relevant"
+    - "Include usage guidance for less experienced users"
+    - "Add summary statistics for overview context"
+  
+  consistency:
+    - "Use exact template filenames (including .yaml extension)"
+    - "Extract title from template_title field"
+    - "Extract description from template_description field"
+    - "Use standard category names"
+    - "Follow semantic versioning for version numbers"
+
+# Integration:
+
+integration:
+  with_commands:
+    description: "Commands use this template for /list-templates output"
+    example: "command/list-templates.md references this template"
+  
+  with_documentation:
+    description: "Documentation uses this template for template reference sections"
+    example: "docs/templates.md uses this format"
+  
+  with_agents:
+    description: "Agents use this template when explaining available templates"
+    note: "Agents may adapt format based on context"
+
+# Best Practices:
+
+best_practices:
+  - "Always group templates by category"
+  - "Include category descriptions and 'when to use' guidance"
+  - "Extract metadata from YAML fields, don't hardcode"
+  - "Use consistent formatting for all template entries"
+  - "Provide summary statistics for context"
+  - "Include usage guidance for less experienced users"
+  - "Keep template names exact (match filenames including extension)"
+  - "Link to template-system-architecture knowledge base for details"
+  - "Note meta-templates (templates that create other templates)"
+  - "Indicate project overrides when applicable"
+
+# Special Template Types:
+
+special_types:
+  meta_templates:
+    description: "Templates that create other templates"
+    examples: ["opencode-template-tmpl.yaml"]
+    note: "Flag these as special in listings"
+  
+  reference_templates:
+    description: "Templates providing quick reference"
+    examples: ["common-shell-commands-tmpl.yaml", "task-listing-format-tmpl.yaml"]
+    note: "Emphasize their quick-lookup purpose"
+  
+  resource_templates:
+    description: "Templates that create OpenCode resources"
+    examples: ["opencode-agent-tmpl.yaml", "opencode-command-tmpl.yaml"]
+    note: "Group together as meta-templates"
+
+# Related Resources:
+
+related_resources:
+  knowledge_bases:
+    - "../knowledge-base/template-system-architecture.md"
+  
+  templates:
+    - "../template/opencode-template-tmpl.yaml"
+  
+  commands:
+    - "../command/list-templates.md"
+  
+  tasks:
+    - "../task/opencode-template.md"

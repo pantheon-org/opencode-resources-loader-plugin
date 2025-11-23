@@ -1,0 +1,325 @@
+# OpenCode Command Template
+# Brief description of what this template is for and how it should be used
+
+# Resource Loader Discovery Fields
+type: template
+description: "Template for creating custom OpenCode commands"
+category: Development
+tags: [template, opencode, command, workflow, creation]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Additional Metadata
+title: "OpenCode Command Template"
+reference: "https://opencode.ai/docs/commands/"
+
+# Command Overview:
+# Commands are custom shortcuts that execute predefined prompts in the OpenCode TUI
+# They are defined as markdown files with YAML frontmatter in the command/ directory
+
+command_structure:
+  file_location:
+    global: "~/.config/opencode/command/"
+    per_project: ".opencode/command/"
+    note: "Filename becomes the command name (e.g., test.md becomes /test)"
+  
+  frontmatter:
+    format: "YAML between --- markers"
+    required_fields: []
+    optional_fields:
+      - "title: Command name (defaults to filename)"
+      - "description: Brief description shown in TUI"
+      - "agent: Which agent should execute (e.g., general, plan, build)"
+      - "subtask: Boolean to force subagent invocation"
+      - "model: Override default model for this command"
+    note: "All frontmatter fields are optional"
+  
+  content:
+    format: "Markdown after frontmatter"
+    purpose: "This becomes the prompt template sent to the LLM"
+    special_syntax:
+      - "$ARGUMENTS - Replaced with all command arguments"
+      - "$1, $2, $3 - Individual positional arguments"
+      - "!`command` - Inject bash command output"
+      - "@filename - Include file content"
+
+# Frontmatter Options:
+
+frontmatter_options:
+  title:
+    description: "Command name (optional, defaults to filename)"
+    type: "string"
+    example: "title: test"
+  
+  description:
+    description: "Brief description shown in TUI when typing command"
+    type: "string"
+    required: false
+    example: "description: Run tests with coverage"
+  
+  agent:
+    description: "Specify which agent should execute the command"
+    type: "string"
+    values: ["general", "plan", "build", "or custom agent name"]
+    required: false
+    default: "Current agent"
+    example: "agent: plan"
+  
+  subtask:
+    description: "Force command to trigger subagent invocation"
+    type: "boolean"
+    required: false
+    note: "Useful to avoid polluting primary context"
+    example: "subtask: true"
+  
+  model:
+    description: "Override default model for this command"
+    type: "string"
+    required: false
+    example: "model: anthropic/claude-3-5-sonnet-20241022"
+
+# Template Syntax:
+
+template_syntax:
+  arguments:
+    all_arguments:
+      syntax: "$ARGUMENTS"
+      description: "Replaced with all command arguments as a single string"
+      example: "/component Button  →  $ARGUMENTS = 'Button'"
+    
+    positional_arguments:
+      syntax: "$1, $2, $3, etc."
+      description: "Individual positional arguments"
+      example: "/create-file config.json src  →  $1='config.json', $2='src'"
+  
+  shell_commands:
+    syntax: "!`command`"
+    description: "Execute bash command and inject output into prompt"
+    working_directory: "Project root directory"
+    examples:
+      - "!`npm test` - Run tests and include output"
+      - "!`git status` - Include git status"
+      - "!`git log --oneline -10` - Recent commits"
+      - "!`find . -name '*.test.js'` - Find test files"
+    note: "Command output becomes part of the prompt sent to LLM"
+  
+  file_references:
+    syntax: "@filename"
+    description: "Include file content in the prompt"
+    examples:
+      - "@src/components/Button.tsx - Include component file"
+      - "@package.json - Include package.json content"
+      - "@.opencode/data/conventions.md - Reference documentation"
+    note: "File content is automatically included in the prompt"
+
+# Command Types:
+
+command_types:
+  simple_prompt:
+    description: "Basic command that sends a prompt without arguments"
+    use_case: "Standard workflows, quick actions"
+    example_file: "hello-world.md"
+  
+  parameterized:
+    description: "Command that accepts arguments"
+    use_case: "Creating components, files with specific names"
+    uses: ["$ARGUMENTS", "$1, $2, $3"]
+    example_file: "component.md"
+  
+  shell_integration:
+    description: "Command that runs shell commands and analyzes output"
+    use_case: "Analyzing test results, reviewing commits, checking status"
+    uses: ["!`command`"]
+    example_file: "commit.md"
+  
+  file_reference:
+    description: "Command that includes specific files in context"
+    use_case: "Reviewing code, analyzing configurations"
+    uses: ["@filename"]
+  
+  comprehensive:
+    description: "Complex command combining multiple features"
+    use_case: "Full documentation generation, comprehensive analysis"
+    uses: ["$ARGUMENTS", "!`command`", "@filename", "agent config"]
+    example_file: "document.md"
+
+# Example Templates:
+
+example_simple:
+  filename: "hello-world.md"
+  content: |
+    ---
+    title: hello-world
+    description: Test command to verify functionality
+    ---
+    
+    Reply with "Hello world" in English or another language.
+    If the reply is not in English, display the language name.
+
+example_with_arguments:
+  filename: "component.md"
+  content: |
+    ---
+    description: Create a new component
+    ---
+    
+    Create a new React component named $ARGUMENTS with TypeScript support.
+    Include proper typing and basic structure.
+
+example_with_positional_args:
+  filename: "create-file.md"
+  content: |
+    ---
+    description: Create a new file with content
+    ---
+    
+    Create a file named $1 in the directory $2
+    with the following content: $3
+
+example_with_shell:
+  filename: "analyze-tests.md"
+  content: |
+    ---
+    description: Analyze test coverage
+    ---
+    
+    Here are the current test results:
+    !`npm test`
+    
+    Based on these results, suggest improvements to increase coverage.
+
+example_with_file_reference:
+  filename: "review-component.md"
+  content: |
+    ---
+    description: Review component
+    ---
+    
+    Review the component in @src/components/Button.tsx.
+    Check for performance issues and suggest improvements.
+
+example_with_agent:
+  filename: "refine-prompt.md"
+  content: |
+    ---
+    description: Refine and enhance a user prompt
+    agent: plan
+    ---
+    
+    You are a professional prompt engineer. Transform the given prompt
+    into a more detailed, precise, and actionable prompt.
+    
+    Original Prompt: $ARGUMENTS
+
+example_comprehensive:
+  filename: "document.md"
+  content: |
+    ---
+    description: Generate project documentation
+    agent: general
+    ---
+    
+    Create documentation for this codebase.
+    
+    ## Project Analysis
+    
+    !`echo "Package managers:"; [ -f "package.json" ] && echo "- npm/yarn/pnpm"`
+    
+    ## Documentation Requirements
+    
+    $ARGUMENTS
+    
+    ## Instructions
+    
+    1. Analyze the codebase structure
+    2. Create or update documentation
+    3. Include code examples
+    4. Follow best practices
+
+# Best Practices:
+
+best_practices:
+  - "Write clear, specific prompts with expected output format"
+  - "Use shell commands for dynamic context"
+  - "Reference files with @ instead of copying content"
+  - "Choose appropriate agent for the task"
+  - "Keep commands focused on single purpose"
+  - "Use $ARGUMENTS for simple cases, $1 $2 $3 for multiple parameters"
+  - "Add descriptive frontmatter and documentation"
+  - "Use consistent naming conventions (kebab-case)"
+
+# Common Patterns:
+
+common_patterns:
+  code_generation: "Create files/components using $ARGUMENTS + file references"
+  analysis: "Analyze code/tests using shell commands + file references"
+  review: "Review code/changes using git commands + file references"
+  documentation: "Generate docs using shell commands + $ARGUMENTS + file references"
+
+# Command Discovery:
+
+discovery:
+  how_commands_appear: "Type / in TUI to see all available commands"
+  command_name: "Derived from filename (test.md becomes /test)"
+  description_shown: "From frontmatter description field"
+  auto_complete: "TUI provides autocomplete for command names"
+
+# Integration with OpenCode:
+
+integration:
+  with_agents: "Use 'agent' field to route to specific agent"
+  with_tasks: "Commands can reference tasks in .opencode/task/"
+  with_data: "Commands can reference data files in .opencode/data/"
+  with_checklists: "Commands can reference checklists in .opencode/checklist/"
+  with_knowledge_bases: "Commands can reference KB in .opencode/knowledge-base/"
+
+# File Organization:
+
+file_organization:
+  naming_convention: "Use kebab-case for multi-word commands (e.g., analyze-tests.md)"
+  single_purpose: "Each command should have a clear, single purpose"
+  grouping: "Related commands can use prefixes (e.g., git-commit.md, git-review.md)"
+  location:
+    - "Global commands: ~/.config/opencode/command/"
+    - "Project commands: .opencode/command/"
+  priority: "Project commands override global commands with same name"
+
+# Testing Commands:
+
+testing:
+  basic_test: "Run command in TUI and verify output"
+  argument_test: "Test with various argument combinations"
+  shell_test: "Verify shell commands execute correctly"
+  file_test: "Verify file references resolve properly"
+  error_handling: "Test command with invalid inputs"
+
+# Common Use Cases:
+
+use_cases:
+  quick_actions: "Simple prompts with shell integration (e.g., /commit, /test, /lint)"
+  code_generation: "Parameterized prompts with file creation (e.g., /component, /api-endpoint)"
+  analysis: "Shell + file references + analysis (e.g., /analyze-coverage, /review-pr)"
+  documentation: "Comprehensive prompts with data sources (e.g., /document, /api-docs)"
+
+# Migration from Config:
+
+migration_from_config:
+  note: "Commands in opencode.json can be converted to markdown files for easier editing and version control"
+  pattern: "Move from config JSON to .opencode/command/*.md files"
+
+# Troubleshooting:
+
+troubleshooting:
+  command_not_found: "Check filename matches command name, verify file is in command/ directory"
+  arguments_not_working: "Verify $ARGUMENTS or $1, $2, $3 syntax is correct"
+  shell_command_fails: "Test shell command independently, check working directory"
+  file_not_referenced: "Verify file path is correct, use @ prefix"
+  wrong_agent: "Check agent name in frontmatter matches available agents"
+
+# Size Guidelines:
+
+recommended_size:
+  minimum: "5-10 lines for simple commands"
+  typical: "20-50 lines for standard commands"
+  complex: "50-150 lines for comprehensive commands"
+  note: "Focus on clear, concise prompts. Longer commands should be well-structured."

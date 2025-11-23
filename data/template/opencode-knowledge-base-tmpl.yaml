@@ -1,0 +1,368 @@
+# OpenCode Knowledge Base Template
+# This file provides a template structure for creating comprehensive knowledge base documents
+
+# Resource Loader Discovery Fields
+type: template
+description: "Template for creating comprehensive OpenCode knowledge bases with patterns and examples"
+category: Documentation
+tags: [template, opencode, knowledge-base, documentation, creation]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Markdown Frontmatter:
+# When creating a knowledge base markdown file, start with YAML frontmatter:
+#
+# ---
+# title: "Jenkins Patterns"
+# description: "Production-ready Jenkins pipeline patterns including declarative, scripted, and shared library examples"
+# type: knowledge-base
+# category: cicd
+# version: 1.0.0
+# difficulty: intermediate
+# tags: [jenkins, pipeline, patterns, groovy, cicd, devops]
+# related_resources: [".opencode/checklist/pipeline-documentation.md", ".opencode/task/pipeline-architect.md"]
+# ---
+#
+# # Jenkins Patterns Knowledge Base
+#
+# [Rest of markdown content follows...]
+#
+# Field Descriptions:
+# - title: Human-readable knowledge base name (max 80 chars)
+# - description: Concise description for tool listings (max 150 chars)
+# - type: Always "knowledge-base" for knowledge base files
+# - category: Primary category (cicd, security, documentation, architecture)
+# - version: Semantic version (start at 1.0.0)
+# - difficulty: beginner | intermediate | advanced
+# - tags: 5-10 searchable keywords
+# - related_resources: (Optional) Paths to related checklists, tasks, or other knowledge bases
+
+# Template Metadata (for this template file itself):
+template_title: "OpenCode Knowledge Base Template"
+template_description: "Standard template structure for creating comprehensive knowledge base documents"
+template_version: "1.0.0"
+template_category: "meta"
+
+# Document Structure Guidelines:
+# This template describes how to create knowledge base markdown files
+# The actual knowledge base files should be in .md format, not YAML
+
+markdown_structure:
+  overview:
+    format: "# [Topic Name] Knowledge Base"
+    content: "One-line summary and 2-3 paragraph overview"
+    required: true
+  
+  core_concepts:
+    format: "## Core Concepts"
+    pattern: |
+      ### Concept N: [Name]
+      **Definition**: Clear definition
+      **Purpose**: Why it exists
+      **Example**: Code example
+    note: "Define 2-4 key concepts"
+  
+  common_patterns:
+    format: "## Common Patterns"
+    pattern: |
+      ### Pattern N: [Pattern Name]
+      **Problem**: What problem it solves
+      **Solution**: How it solves it
+      **Implementation**: Code example
+      **Benefits**: List benefits
+      **When to Use**: Scenarios
+    note: "Document 3-5 common patterns"
+  
+  best_practices:
+    format: "## Best Practices"
+    subsections:
+      - "### DO: Recommended Practices"
+      - "### DON'T: Anti-Patterns to Avoid"
+    pattern: "Use ✅ for good practices, ❌ for anti-patterns"
+  
+  examples:
+    format: "## Examples"
+    pattern: |
+      ### Example N: [Use Case Name]
+      **Scenario**: Description
+      **Requirements**: List
+      **Solution**: Code with explanation
+      **Key Takeaways**: List
+    note: "Provide 2-3 complete working examples"
+  
+  advanced_topics:
+    format: "## Advanced Topics"
+    content: "Optional section for complex concepts"
+    required: false
+  
+  decision_framework:
+    format: "## Decision Framework"
+    content: "When to use different approaches, comparison matrices, decision trees"
+    required: false
+  
+  troubleshooting:
+    format: "## Troubleshooting"
+    pattern: |
+      ### Issue N: [Problem Name]
+      **Symptoms**: List
+      **Causes**: List
+      **Solution**: Steps with code
+      **Prevention**: How to avoid
+    note: "Document common issues and solutions"
+  
+  quick_reference:
+    format: "## Quick Reference"
+    content: "Command reference, configuration reference, pattern quick list"
+    note: "Tables and code blocks for quick lookup"
+  
+  integration:
+    format: "## Integration Guidelines"
+    content: "How to integrate with other systems"
+    required: false
+  
+  related_resources:
+    format: "## Related Resources"
+    content: "Links to internal and external resources"
+    required: true
+  
+  metadata:
+    format: "## Metadata"
+    content: "Category, tags, difficulty, reading time, prerequisites, target audience"
+    required: true
+
+# Content Guidelines:
+
+content_principles:
+  clarity: ["Clear definitions", "Action-oriented language", "Define technical terms", "Use consistent terminology"]
+  completeness: ["Cover all critical aspects", "Include examples", "Document edge cases", "Link to related resources"]
+  practical: ["Working code examples", "Real-world scenarios", "Troubleshooting guides", "Quick reference sections"]
+  organization: ["Logical progression", "Consistent formatting", "Clear headings", "Balanced depth"]
+
+# Formatting Standards:
+
+formatting:
+  headings:
+    - "# [Title] - Main title"
+    - "## [Section] - Major sections"
+    - "### [Subsection] - Subsections"
+    - "#### [Sub-subsection] - Detailed subsections"
+  
+  emphasis:
+    - "**[Bold]** for key terms and field names"
+    - "_[Italic]_ for emphasis"
+    - "`[Code]` for inline code/commands"
+  
+  code_blocks: |
+    ```language
+    # Code examples with comments
+    example:
+      property: value
+    ```
+  
+  lists:
+    - "- Unordered with dash"
+    - "1. Ordered with numbers"
+    - "  - Nested with 2-space indent"
+  
+  tables: |
+    | Header 1 | Header 2 |
+    |----------|----------|
+    | Value 1  | Value 2  |
+  
+  callouts:
+    - "✅ for good practices"
+    - "❌ for anti-patterns"
+    - "⚠️ for warnings/considerations"
+    - "💡 for tips"
+
+# Example Skeleton:
+
+example_skeleton: |
+  # [Topic Name] Knowledge Base
+  
+  > One-line summary
+  
+  ## Overview
+  
+  [2-3 paragraphs about what this covers, who should use it, when to reference it]
+  
+  ## Core Concepts
+  
+  ### Concept 1: [Name]
+  
+  **Definition**: [Definition]
+  
+  **Purpose**:
+  - [Why it exists]
+  - [What problems it solves]
+  
+  **Example**:
+  ```yaml
+  example:
+    property: value
+  ```
+  
+  ---
+  
+  ## Common Patterns
+  
+  ### Pattern 1: [Pattern Name]
+  
+  **Problem**: [Description]
+  
+  **Solution**: [How it works]
+  
+  **Implementation**:
+  ```yaml
+  pattern:
+    step1: value
+  ```
+  
+  **Benefits**:
+  - ✅ Benefit 1
+  
+  **When to Use**: [Scenarios]
+  
+  ---
+  
+  ## Best Practices
+  
+  ### DO: Recommended Practices
+  
+  #### 1. Practice Name
+  
+  **Description**: [What]
+  
+  **Why**: [Why important]
+  
+  **Example**:
+  ```yaml
+  good_practice:
+    property: value
+  ```
+  
+  ---
+  
+  ### DON'T: Anti-Patterns to Avoid
+  
+  #### 1. Anti-Pattern Name
+  
+  **Problem**: [What's wrong]
+  
+  **Bad Example**:
+  ```yaml
+  bad_example:
+    anti_pattern: value
+  ```
+  
+  **Good Alternative**:
+  ```yaml
+  good_example:
+    proper_approach: value
+  ```
+  
+  ---
+  
+  ## Examples
+  
+  ### Example 1: [Use Case Name]
+  
+  **Scenario**: [Description]
+  
+  **Requirements**: [List]
+  
+  **Solution**:
+  ```yaml
+  solution:
+    implementation: value
+  ```
+  
+  **Key Takeaways**: [List]
+  
+  ---
+  
+  ## Troubleshooting
+  
+  ### Issue 1: [Problem Name]
+  
+  **Symptoms**: [List]
+  
+  **Solution**:
+  ```yaml
+  fix:
+    step1: value
+  ```
+  
+  ---
+  
+  ## Quick Reference
+  
+  | Pattern   | Use Case  | Code      |
+  |-----------|-----------|-----------|
+  | Pattern 1 | Use case  | `example` |
+  
+  ---
+  
+  ## Related Resources
+  
+  - [Related Checklist](../checklist/related.md)
+  - [Related Task](../task/related.md)
+  
+  ---
+  
+  ## Metadata
+  
+  - **Category**: [Category]
+  - **Tags**: [tag1, tag2]
+  - **Difficulty**: [Level]
+  - **Target Audience**: [Who]
+
+# Size Guidelines:
+
+recommended_size:
+  core_concepts: "2-4 concepts with examples"
+  common_patterns: "3-5 patterns with full implementation"
+  examples: "2-3 complete working examples"
+  total_sections: "8-12 major sections"
+  note: "Aim for comprehensive but focused. Split very broad topics into multiple knowledge bases."
+
+# Content Types:
+
+knowledge_base_types:
+  reference:
+    focus: "Quick lookup of commands, configurations, patterns"
+    sections: ["Core Concepts", "Common Patterns", "Quick Reference"]
+    example: "GitLab CI Examples, GitHub Actions Templates"
+  
+  guide:
+    focus: "How-to explanations with examples and best practices"
+    sections: ["Overview", "Core Concepts", "Best Practices", "Examples", "Troubleshooting"]
+    example: "Pipeline Best Practices, Mermaid Diagrams"
+  
+  concept:
+    focus: "Deep explanation of concepts and when/how to use them"
+    sections: ["Overview", "Core Concepts", "Decision Framework", "Advanced Topics"]
+    example: "MoSCoW Prioritization, Acceptance Criteria"
+
+# Maintenance:
+
+maintenance:
+  review_frequency: "Quarterly or when related tools/processes change"
+  update_triggers: ["Tool updates", "New patterns discovered", "Best practices evolve", "User feedback", "Technology changes"]
+  version_control: ["Update version in metadata", "Update last_updated date", "Document changes in changelog section"]
+
+# Integration Points:
+
+integration:
+  with_checklists: "Knowledge bases provide detailed explanations referenced by checklists"
+  with_tasks: "Tasks reference knowledge bases for implementation patterns"
+  with_commands: "Commands may reference knowledge bases for user guidance"
+  with_templates: "Templates structure the documents described in knowledge bases"
+
+# Best Practices:
+
+best_practices:
+  content: ["Focus on one topic/domain", "Include working examples", "Provide both good and bad examples", "Document common pitfalls", "Link to related resources"]
+  structure: ["Start with overview", "Define concepts before patterns", "Progress from simple to complex", "Include quick reference", "End with related resources"]
+  examples: ["Use realistic scenarios", "Provide complete code", "Explain why not just what", "Show variations", "Include expected outcomes"]
+  maintenance: ["Keep examples current", "Update for tool changes", "Respond to feedback", "Track in changelog", "Review regularly"]

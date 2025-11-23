@@ -1,0 +1,473 @@
+# Knowledge Base Listing Format Template
+# Standard template structure for presenting OpenCode knowledge base information
+
+# Resource Loader Discovery Fields
+type: template
+description: "Standardized format for presenting knowledge base information in documentation, commands, and agents"
+category: meta
+tags: [template, meta, listing, format, knowledge-base]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Additional Metadata
+template_title: "Knowledge Base Listing Format Template"
+reference: "../knowledge-base/knowledge-base-system-architecture.md"
+
+# Overview:
+# This template defines the standard format for listing and presenting OpenCode knowledge bases.
+# Use this when creating documentation, command outputs, or agent responses that need to
+# present knowledge base information in a consistent, readable format.
+
+# Structure Guidelines:
+# 1. Group knowledge bases by logical categories
+# 2. Include all essential metadata for each knowledge base
+# 3. Use consistent formatting across all KB entries
+# 4. Provide summary statistics
+# 5. Include usage guidance for each category
+
+structure:
+  header:
+    format: "# Available OpenCode Knowledge Bases"
+    required: true
+    note: "Main title for knowledge base listing"
+  
+  introduction:
+    format: "Brief explanation of what knowledge bases are and how they're used"
+    required: true
+    example: |
+      OpenCode knowledge bases provide comprehensive reference documentation for patterns,
+      best practices, and domain-specific knowledge.
+  
+  category_section:
+    format: |
+      ### [Category Name] Knowledge Bases
+      
+      [Brief description of category purpose and when to use]
+      
+      - **knowledge-base-name**
+        - Title: [KB title]
+        - Description: [KB description]
+        - Key Topics: [Main concepts covered]
+    required: true
+    note: "Repeat for each category"
+  
+  summary:
+    format: "**Found N knowledge bases total: N global, N project**"
+    required: true
+    note: "Provide count statistics"
+  
+  usage_guidance:
+    format: "## How Knowledge Bases Are Used"
+    required: false
+    note: "Optional section explaining KB usage patterns"
+
+# Knowledge Base Entry Format:
+# Each knowledge base should be presented with these fields
+
+kb_entry:
+  kb_name:
+    format: "**knowledge-base-name**"
+    bold: true
+    required: true
+    note: "Exact KB filename without .md extension"
+  
+  title:
+    format: "- Title: [Text from title frontmatter field or H1 heading]"
+    required: true
+    source: "frontmatter.title or H1"
+  
+  description:
+    format: "- Description: [Brief summary from frontmatter or first paragraph]"
+    required: true
+    source: "frontmatter.description"
+  
+  category:
+    format: "- Category: [Category name]"
+    required: false
+    source: "frontmatter.category"
+    values: ["documentation", "cicd", "development", "patterns", "domain", "meta"]
+  
+  key_topics:
+    format: "- Key Topics: [Main concepts covered]"
+    required: true
+    note: "Inferred from content or explicitly stated"
+
+# Category Organization:
+# Knowledge bases should be grouped into these standard categories
+
+categories:
+  documentation:
+    title: "### Documentation Knowledge Bases"
+    description: "Guides for creating documentation, diagrams, and content"
+    when_to_use: "Creating or improving documentation"
+    typical_kbs:
+      - "mermaid-diagrams"
+      - "acceptance-criteria"
+      - "template-standard"
+    characteristics:
+      - "Documentation quality focus"
+      - "Formatting standards"
+      - "Writing guidelines"
+  
+  cicd:
+    title: "### CI/CD Knowledge Bases"
+    description: "Pipeline patterns, platform-specific guides, deployment strategies"
+    when_to_use: "Setting up or optimizing CI/CD pipelines"
+    typical_kbs:
+      - "pipeline-best-practices"
+      - "jenkins-patterns"
+      - "gitlab-ci-examples"
+      - "github-actions-templates"
+    characteristics:
+      - "Platform-specific guidance"
+      - "Security-focused"
+      - "Production-ready examples"
+  
+  development:
+    title: "### Development Knowledge Bases"
+    description: "Coding practices, architecture patterns, development workflows"
+    when_to_use: "Building features, refactoring, improving code quality"
+    typical_kbs:
+      - "loading-strategy"
+      - "plugin-architecture"
+      - "plugin-migration"
+    characteristics:
+      - "Code-focused"
+      - "Architecture patterns"
+      - "Performance considerations"
+  
+  patterns:
+    title: "### Patterns and Frameworks Knowledge Bases"
+    description: "Methodologies, prioritization, requirement management"
+    when_to_use: "Planning, requirement analysis, decision-making"
+    typical_kbs:
+      - "moscow-prioritization"
+      - "acceptance-criteria"
+    characteristics:
+      - "Framework documentation"
+      - "Methodology explanation"
+      - "Decision-making tools"
+  
+  domain_specific:
+    title: "### Domain-Specific Knowledge Bases"
+    description: "Specialized topics and technologies"
+    when_to_use: "Working with specific technologies or domains"
+    typical_kbs:
+      - "ai-tool-approval-patterns"
+    characteristics:
+      - "Deep domain expertise"
+      - "Specialized terminology"
+      - "Technology-specific"
+  
+  meta:
+    title: "### Meta Knowledge Bases"
+    description: "System architecture and meta-knowledge about OpenCode"
+    when_to_use: "Understanding OpenCode systems and resource types"
+    typical_kbs:
+      - "task-system-architecture"
+      - "template-system-architecture"
+      - "knowledge-base-system-architecture"
+    characteristics:
+      - "Self-referential"
+      - "System documentation"
+      - "Architecture explanation"
+
+# Complete Example:
+
+example_basic: |
+  # Available OpenCode Knowledge Bases
+  
+  OpenCode knowledge bases provide comprehensive reference documentation for patterns,
+  best practices, and domain-specific knowledge.
+  
+  ### Documentation Knowledge Bases
+  
+  Guides for creating documentation, diagrams, and content.
+  
+  **When to use**: Creating or improving documentation
+  
+  - **mermaid-diagrams**
+    - Title: Mermaid Diagrams Guide
+    - Description: Examples and best practices for creating Mermaid diagrams in documentation
+    - Key Topics: Flowcharts, sequence diagrams, class diagrams, syntax examples
+  
+  - **acceptance-criteria**
+    - Title: Acceptance Criteria Best Practices
+    - Description: Guide for writing clear, testable acceptance criteria
+    - Key Topics: Writing guidelines, examples, quality standards
+  
+  ### CI/CD Knowledge Bases
+  
+  Pipeline patterns, platform-specific guides, deployment strategies.
+  
+  **When to use**: Setting up or optimizing CI/CD pipelines
+  
+  - **pipeline-best-practices**
+    - Title: CI/CD Pipeline Best Practices
+    - Description: Comprehensive guide to CI/CD best practices across platforms
+    - Key Topics: Security, performance, maintainability, reliability
+  
+  - **jenkins-patterns**
+    - Title: Jenkins Pipeline Patterns
+    - Description: Modern Jenkins pipeline patterns and best practices
+    - Key Topics: Declarative pipelines, shared libraries, security
+  
+  - **gitlab-ci-examples**
+    - Title: GitLab CI/CD Examples
+    - Description: Production-ready GitLab CI/CD patterns
+    - Key Topics: Multi-stage builds, deployment automation, caching
+  
+  - **github-actions-templates**
+    - Title: GitHub Actions Templates
+    - Description: Workflow templates for GitHub Actions
+    - Key Topics: CI/CD workflows, automation, best practices
+  
+  ### Development Knowledge Bases
+  
+  Coding practices, architecture patterns, development workflows.
+  
+  **When to use**: Building features, refactoring, improving code quality
+  
+  - **loading-strategy**
+    - Title: Resource Loading Strategy
+    - Description: Efficient loading strategy for skills, knowledge bases, and checklists
+    - Key Topics: Performance optimization, lazy loading, resource management
+  
+  - **plugin-architecture**
+    - Title: Plugin Architecture Guide
+    - Description: Guide for replacing command-based documentation with OpenCode plugins
+    - Key Topics: Plugin design, performance, migration strategies
+  
+  - **plugin-migration**
+    - Title: Plugin Migration Guide
+    - Description: Identifying opportunities to replace commands with plugins
+    - Key Topics: Migration patterns, performance benefits, best practices
+  
+  ### Patterns and Frameworks Knowledge Bases
+  
+  Methodologies, prioritization, requirement management.
+  
+  **When to use**: Planning, requirement analysis, decision-making
+  
+  - **moscow-prioritization**
+    - Title: MoSCoW Prioritization Framework
+    - Description: Prioritization framework for requirements (Must/Should/Could/Won't)
+    - Key Topics: Requirement categorization, prioritization methods
+  
+  ### Domain-Specific Knowledge Bases
+  
+  Specialized topics and technologies.
+  
+  **When to use**: Working with specific technologies or domains
+  
+  - **ai-tool-approval-patterns**
+    - Title: AI Tool Approval Patterns
+    - Description: Reference for AI and open source tool approval patterns
+    - Key Topics: Common findings, best practices, approval process
+  
+  ### Meta Knowledge Bases
+  
+  System architecture and meta-knowledge about OpenCode.
+  
+  **When to use**: Understanding OpenCode systems and resource types
+  
+  - **task-system-architecture**
+    - Title: OpenCode Task System Architecture
+    - Description: Comprehensive guide to the OpenCode task system
+    - Key Topics: Task structure, categories, usage patterns, integration
+  
+  - **template-system-architecture**
+    - Title: OpenCode Template System Architecture
+    - Description: Comprehensive guide to the OpenCode template system
+    - Key Topics: Template structure, categories, usage patterns, integration
+  
+  - **knowledge-base-system-architecture**
+    - Title: OpenCode Knowledge Base System Architecture
+    - Description: Comprehensive guide to the OpenCode knowledge base system
+    - Key Topics: KB structure, categories, usage patterns, integration
+  
+  ---
+  
+  **Found 13 knowledge bases total: 13 global, 0 project**
+
+example_with_usage_guidance: |
+  # Available OpenCode Knowledge Bases
+  
+  [KB listings as above...]
+  
+  ---
+  
+  ## How Knowledge Bases Are Used
+  
+  Knowledge bases are referenced by:
+  
+  - **Agents**: Provide context and best practices for specialized tasks
+  - **Commands**: Include patterns and examples in command execution
+  - **Tasks**: Reference for multi-step workflows
+  - **Checklists**: Validation against established patterns
+  
+  ## Knowledge Base Structure
+  
+  Knowledge bases follow markdown format with these sections:
+  
+  1. **Frontmatter**: title, description, type, category, version, tags
+  2. **Overview**: Introduction, scope, when to use
+  3. **Core Concepts**: Key concepts with definitions and examples
+  4. **Common Patterns**: Solutions to recurring problems
+  5. **Best Practices**: DO and DON'T guidance
+  6. **Examples**: Complete working examples
+  7. **Quick Reference**: Tables, cheat sheets, command references
+  8. **Troubleshooting**: Common issues and solutions
+  9. **Related Resources**: Links to related documentation
+  
+  ## Knowledge Base Locations
+  
+  - Global knowledge bases: `~/.config/opencode/knowledge-base/`
+  - Project knowledge bases: `.opencode/knowledge-base/`
+  - Project knowledge bases override global ones with the same name
+
+# Formatting Standards:
+
+formatting:
+  headings:
+    h1: "# Available OpenCode Knowledge Bases"
+    h2: "## [Section like 'How Knowledge Bases Are Used']"
+    h3: "### [Category] Knowledge Bases"
+  
+  emphasis:
+    kb_name: "**knowledge-base-name** (bold, without extension)"
+    metadata_label: "- Title: (plain)"
+    metadata_value: "[value] (plain)"
+  
+  lists:
+    kb_list: "- **knowledge-base-name**"
+    metadata: "  - Label: Value (2-space indent)"
+  
+  separators:
+    between_sections: "---"
+
+# Display Options:
+
+display_options:
+  compact:
+    description: "Minimal display with KB name and title only"
+    example: |
+      - **mermaid-diagrams**: Mermaid Diagrams Guide
+      - **pipeline-best-practices**: CI/CD Pipeline Best Practices
+  
+  standard:
+    description: "Standard display with name, title, description, key topics"
+    example: |
+      - **mermaid-diagrams**
+        - Title: Mermaid Diagrams Guide
+        - Description: Examples and best practices for creating Mermaid diagrams
+        - Key Topics: Flowcharts, sequence diagrams, syntax examples
+  
+  detailed:
+    description: "Full display including all metadata and usage guidance"
+    includes: ["standard fields", "category", "when to use section", "KB structure", "locations"]
+
+# Summary Statistics:
+
+summary_format:
+  basic: "**Found N knowledge bases total**"
+  detailed: "**Found N knowledge bases total: N global, N project**"
+  by_category: |
+    **Found 13 knowledge bases total: 13 global, 0 project**
+    
+    By category:
+    - Documentation: 2 knowledge bases
+    - CI/CD: 4 knowledge bases
+    - Development: 3 knowledge bases
+    - Patterns: 1 knowledge base
+    - Domain-Specific: 1 knowledge base
+    - Meta: 3 knowledge bases (may overlap with other categories)
+
+# Usage Guidelines:
+
+guidelines:
+  when_to_use:
+    - "Documenting available knowledge bases in README or guides"
+    - "Creating command output for /list-knowledge-bases"
+    - "Agent responses explaining KB capabilities"
+    - "KB discovery and selection workflows"
+  
+  customization:
+    - "Adjust detail level based on context (compact, standard, detailed)"
+    - "Filter by category if only subset relevant"
+    - "Include usage guidance for less experienced users"
+    - "Add summary statistics for overview context"
+  
+  consistency:
+    - "Use exact KB names (filename without .md extension)"
+    - "Extract title from frontmatter or H1 heading"
+    - "Extract description from frontmatter"
+    - "Identify key topics from content"
+    - "Use standard category names"
+
+# Integration:
+
+integration:
+  with_commands:
+    description: "Commands use this template for /list-knowledge-bases output"
+    example: "command/list-knowledge-bases.md references this template"
+  
+  with_documentation:
+    description: "Documentation uses this template for KB reference sections"
+    example: "docs/knowledge-bases.md uses this format"
+  
+  with_agents:
+    description: "Agents use this template when explaining available KBs"
+    note: "Agents may adapt format based on context"
+
+# Best Practices:
+
+best_practices:
+  - "Always group knowledge bases by category"
+  - "Include category descriptions and 'when to use' guidance"
+  - "Extract metadata from frontmatter, don't hardcode"
+  - "Use consistent formatting for all KB entries"
+  - "Provide summary statistics for context"
+  - "Include usage guidance for less experienced users"
+  - "Keep KB names exact (match filenames without extension)"
+  - "Link to knowledge-base-system-architecture for details"
+  - "Note special KBs (meta KBs about the system itself)"
+  - "Indicate project overrides when applicable"
+
+# Special Knowledge Base Types:
+
+special_types:
+  meta_kbs:
+    description: "Knowledge bases about OpenCode systems"
+    examples: ["task-system-architecture", "template-system-architecture", "knowledge-base-system-architecture"]
+    note: "Flag these as meta knowledge in listings"
+  
+  reference_kbs:
+    description: "Quick reference knowledge bases"
+    examples: ["common-shell-commands", "gitlab-ci-examples"]
+    note: "Emphasize their quick-lookup purpose"
+  
+  guide_kbs:
+    description: "How-to guides with comprehensive examples"
+    examples: ["pipeline-best-practices", "mermaid-diagrams"]
+    note: "Highlight their educational purpose"
+  
+  concept_kbs:
+    description: "Deep conceptual explanations"
+    examples: ["moscow-prioritization", "acceptance-criteria"]
+    note: "Note their framework/methodology focus"
+
+# Related Resources:
+
+related_resources:
+  knowledge_bases:
+    - "../knowledge-base/knowledge-base-system-architecture.md"
+  
+  templates:
+    - "../template/opencode-knowledge-base-tmpl.yaml"
+  
+  commands:
+    - "../command/list-knowledge-bases.md"
+  
+  tasks:
+    - "../task/opencode-knowledge-base.md"

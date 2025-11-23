@@ -5,6 +5,33 @@ import { extractSnippet } from '../extract/snippet';
 import { tokenizeQuery } from '../tokenize-query';
 import { Frontmatter, Resource, SearchResult } from '../types';
 
+/**
+ * Calculate relevance score for a resource against a search query
+ *
+ * Multi-field scoring algorithm with weighted matches across:
+ * - Name (20 points for exact match)
+ * - Tool name (8 points)
+ * - Tags (15 points per tag)
+ * - Category (6 points)
+ * - Description (5 points)
+ * - Title (4 points)
+ * - Content (2 points)
+ * - Multi-token bonus (10 points for complete phrase)
+ *
+ * @param resource - Resource to score
+ * @param query - Search query (case-insensitive)
+ * @param frontmatter - Parsed frontmatter metadata (can be null)
+ * @returns SearchResult with score, matched fields, and optional snippet
+ *
+ * @example
+ * const result = calculateRelevanceScore(resource, 'api security', frontmatter);
+ * console.log(`Score: ${result.score}, Matched: ${result.matchedFields.join(', ')}`);
+ *
+ * @remarks
+ * Scoring is additive - multiple matches increase total score.
+ * Higher scores indicate better relevance.
+ * Content matches include contextual snippets.
+ */
 export const calculateRelevanceScore = (
   resource: Resource,
   query: string,

@@ -1,0 +1,440 @@
+# OpenCode Agent Template
+# Template for creating specialized AI agent configurations in OpenCode
+
+# Resource Loader Discovery Fields
+type: template
+description: "Template for creating custom agent configurations with specialized prompts, models, and tool access"
+category: Development
+tags: [template, opencode, agent, configuration, creation]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Additional Metadata
+title: "OpenCode Agent Template"
+reference: "https://opencode.ai/docs/agents/"
+
+# Overview:
+# This template defines the structure for creating custom OpenCode agents. Agents are specialized
+# AI assistants that can be configured for specific tasks and workflows with custom prompts, models,
+# and tool access. Agents can be primary (main conversation) or subagents (specialized tasks).
+
+# Structure Guidelines:
+# 1. Define agent mode (primary, subagent, or all)
+# 2. Add clear description for agent discovery and selection
+# 3. Configure appropriate model and temperature for the task
+# 4. Set tool permissions based on agent purpose
+# 5. Provide custom system prompt aligned with agent specialization
+
+structure:
+  agent_definition:
+    description: "Core agent configuration structure"
+    format: "YAML frontmatter for markdown files, or JSON object for opencode.json"
+    required: true
+    location:
+      global: "~/.config/opencode/agent/"
+      project: ".opencode/agent/"
+  
+  frontmatter:
+    description: "Metadata and configuration for the agent"
+    required_fields: ["description", "mode"]
+    optional_fields: ["model", "temperature", "tools", "permission", "disable"]
+    format: |
+      ---
+      description: Brief description of agent purpose
+      mode: primary | subagent | all
+      model: provider/model-name
+      temperature: 0.0-1.0
+      tools:
+        tool_name: true | false
+      permission:
+        tool_name: ask | allow | deny
+      ---
+  
+  system_prompt:
+    description: "Instructions defining agent behavior and focus"
+    format: "Markdown content after frontmatter"
+    required: true
+    guidelines:
+      - "Clear role definition"
+      - "Specific focus areas"
+      - "Behavioral constraints"
+      - "Output expectations"
+
+# Configuration Options:
+
+options:
+  description:
+    description: "Brief description of agent purpose and when to use it"
+    type: "string"
+    required: true
+    example: "description: Reviews code for best practices and potential issues"
+    note: "Used for agent discovery and selection by primary agents"
+  
+  mode:
+    description: "Agent operation mode"
+    type: "string"
+    required: true
+    values: ["primary", "subagent", "all"]
+    default: "all"
+    details:
+      primary: "Main conversation agent, switchable with Tab key"
+      subagent: "Specialized agent invoked by @ mention or by primary agents"
+      all: "Can function as both primary and subagent"
+    example: "mode: subagent"
+  
+  model:
+    description: "Override default model for this agent"
+    type: "string"
+    required: false
+    format: "provider/model-name"
+    example: "model: anthropic/claude-sonnet-4-20250514"
+    note: "Use different models optimized for different tasks"
+  
+  temperature:
+    description: "Control randomness and creativity of responses"
+    type: "number"
+    required: false
+    range: "0.0 - 1.0"
+    default: "Model-specific (typically 0, or 0.55 for Qwen models)"
+    guidelines:
+      deterministic: "0.0-0.2 for focused, analytical tasks (security audits, code analysis, planning)"
+      balanced: "0.3-0.5 for general development (documentation, refactoring)"
+      creative: "0.6-1.0 for brainstorming and exploration (architecture design, ideation)"
+    example: "temperature: 0.1"
+  
+  tools:
+    description: "Enable or disable specific tools for this agent"
+    type: "object"
+    required: false
+    format: "tool_name: boolean"
+    supports_wildcards: true
+    example: |
+      tools:
+        write: false
+        edit: false
+        bash: false
+        mymcp_*: false
+    note: "Agent-specific config overrides global tool config"
+  
+  permission:
+    description: "Control what actions agent can take"
+    type: "object"
+    required: false
+    values: ["ask", "allow", "deny"]
+    supported_tools: ["edit", "bash", "webfetch"]
+    supports_patterns: true
+    example: |
+      permission:
+        edit: deny
+        bash:
+          "git status": allow
+          "git *": ask
+          "*": ask
+        webfetch: deny
+  
+  disable:
+    description: "Disable the agent"
+    type: "boolean"
+    required: false
+    default: false
+    example: "disable: true"
+  
+  prompt:
+    description: "Path to custom system prompt file (JSON config only)"
+    type: "string"
+    required: false
+    format: "{file:./path/to/prompt.txt}"
+    example: "prompt: {file:./prompts/code-review.txt}"
+    note: "For markdown agents, prompt is the content after frontmatter"
+
+# Guidelines:
+
+guidelines:
+  when_to_use:
+    - "Creating specialized agents for specific tasks (review, docs, security)"
+    - "Restricting tool access for safety (plan/analysis agents)"
+    - "Using different models optimized for different tasks"
+    - "Implementing workflow-specific assistants"
+    - "Adding @ mentionable subagents for primary agents to invoke"
+  
+  when_not_to_use:
+    - "Simple one-off prompts (use commands instead)"
+    - "Temporary configuration changes (use inline instructions)"
+    - "When default build agent is sufficient"
+  
+  best_practices:
+    - "Use descriptive names that indicate agent purpose"
+    - "Set mode appropriately (primary for Tab-switchable, subagent for specialized)"
+    - "Configure temperature based on task (low for analysis, higher for creative)"
+    - "Disable tools the agent doesn't need for security and focus"
+    - "Write clear system prompts with specific focus areas"
+    - "Use subagents for specialized tasks invoked by primary agents"
+    - "Test agent with various scenarios before deployment"
+
+# Agent Types:
+
+types:
+  primary: "Main agent switchable with Tab - full tool access, handles main conversation"
+  subagent: "Specialized for specific tasks - invoked by @ mention, focused tools"
+  restricted: "Limited permissions - read-only or ask, safe for analysis"
+
+# Example Agents:
+
+example_minimal: |
+  ---
+  description: Reviews code for best practices
+  mode: subagent
+  ---
+  You are a code reviewer. Focus on quality, security, and maintainability.
+
+example_complete: |
+  ---
+  description: Documentation writer
+  mode: subagent
+  model: anthropic/claude-sonnet-4-20250514
+  temperature: 0.3
+  tools:
+    write: true
+    bash: false
+  permission:
+    edit: ask
+  ---
+  You are a technical writer. Create clear, comprehensive documentation with proper structure and examples.
+
+# Common Patterns:
+
+common_patterns:
+  readonly_analyst: "write:false, edit:false, bash:false - for planning/review"
+  git_safe: "git push:ask, git status/diff/log:allow - safe git access"
+  documentation_writer: "write:true, edit:true, bash:false, temp:0.3 - docs"
+
+# Use Cases:
+
+use_cases:
+  code_review: "Subagent, read-only tools, focus on quality/security"
+  documentation: "Subagent, write/edit enabled, focus on clear docs"
+  security_audit: "Subagent, read-only, focus on vulnerabilities"
+  planning: "Primary, all tools ask permission, focus on analysis"
+
+# Integration:
+
+integration:
+  with_commands:
+    description: "Commands can specify which agent to use"
+    example: "agent: review-agent"
+  
+  with_tasks:
+    description: "Tasks can invoke specific agents for subtasks"
+    note: "Use @ mention to invoke subagents from tasks"
+  
+  with_workflows:
+    description: "Agents can be part of multi-step workflows"
+    pattern: "Primary agent → invokes subagent → subagent creates child session"
+  
+  with_keybinds:
+    description: "Tab key cycles through primary agents"
+    keybinds:
+      switch: "Tab or configured switch_agent"
+      child_cycle: "Ctrl+Right or session_child_cycle"
+      child_reverse: "Ctrl+Left or session_child_cycle_reverse"
+
+# File Organization:
+
+file_organization:
+  markdown: "~/.config/opencode/agent/*.md or .opencode/agent/*.md (filename = agent name)"
+  json: "opencode.json agent object with optional external prompt reference"
+  creation: "Run 'opencode agent create' for interactive setup"
+
+# Maintenance:
+
+maintenance:
+  review_frequency: "When workflow changes or new features needed"
+  update_triggers:
+    - "Tool configurations change"
+    - "New specialized workflows emerge"
+    - "Team feedback on agent effectiveness"
+    - "Model capabilities improve"
+    - "Security requirements change"
+  version_control:
+    - "Track agent configuration changes"
+    - "Document why agents were added/modified"
+    - "Test agents after model or config updates"
+
+# Best Practices Summary:
+
+best_practices:
+  - "Use descriptive agent names that indicate purpose"
+  - "Set mode appropriately (primary for main, subagent for specialized)"
+  - "Configure temperature based on task type"
+  - "Disable unnecessary tools for security and focus"
+  - "Write clear, focused system prompts"
+  - "Test agents with various scenarios"
+  - "Use subagents for specialized tasks invoked by primary agents"
+  - "Document agent purpose and expected behavior"
+
+# Troubleshooting:
+
+troubleshooting:
+  agent_not_appearing:
+    problem: "Agent not showing in agent list"
+    solution: "Check file location, ensure valid YAML frontmatter, verify mode is set"
+  
+  tools_not_working:
+    problem: "Agent cannot access expected tools"
+    solution: "Check tools config, verify global config isn't overriding, check permissions"
+  
+  permission_conflicts:
+    problem: "Agent permissions not working as expected"
+    solution: "Verify permission hierarchy (agent > global), check wildcard patterns"
+  
+  subagent_not_invokable:
+    problem: "Cannot @ mention subagent"
+    solution: "Ensure mode is 'subagent' or 'all', check agent name matches filename"
+
+# Anti-Patterns:
+
+anti_patterns:
+  overly_permissive:
+    description: "Giving all tools to specialized agents"
+    why_bad: "Reduces focus, increases risk of unintended actions"
+    correct_approach: "Only enable tools needed for agent's purpose"
+  
+  vague_prompts:
+    description: "Generic system prompts without clear focus"
+    why_bad: "Agent behavior becomes unpredictable and unfocused"
+    correct_approach: "Specific focus areas, clear behavioral constraints"
+  
+  wrong_mode:
+    description: "Using primary mode for specialized tasks"
+    why_bad: "Clutters primary agent list, harder to invoke"
+    correct_approach: "Use subagent mode for specialized, focused tasks"
+
+# Resource Discovery (Plugin-Aware Pattern):
+
+resource_discovery:
+  description: "Use Resource Loader Plugin for dynamic resource discovery"
+  tools: ["resource_list", "resource_search", "resource_info"]
+  
+  workflow:
+    step_1: "Start broad - list resources by type or category"
+    step_2: "Narrow down - search for specific topics"
+    step_3: "Get details - check frontmatter and related resources"
+    step_4: "Load minimal set - only what you need"
+  
+  discovery_tools:
+    resource_list:
+      description: "List all available resources with filtering"
+      usage: |
+        resource_list({ type: "checklist" })
+        resource_list({ category: "Documentation" })
+        resource_list({ tag: "api" })
+      note: "Low context impact - metadata only"
+    
+    resource_search:
+      description: "Search resources by keyword with relevance scoring"
+      usage: |
+        resource_search({ query: "api documentation" })
+        resource_search({ query: "deployment", type: "task" })
+      note: "Returns ranked results with match information"
+    
+    resource_info:
+      description: "Get detailed metadata including related resources"
+      usage: |
+        resource_info({ tool_name: "checklist_api_documentation" })
+      note: "Preview resource before loading full content"
+  
+  loading_tools:
+    pattern: "{type}_{resource_name}"
+    examples:
+      - "checklist_api_documentation()"
+      - "knowledge_base_jenkins_patterns()"
+      - "task_deployment_strategy()"
+    note: "High context impact - loads full content"
+  
+  best_practices:
+    - "Use discovery tools before loading resources"
+    - "Check resource size with resource_info first"
+    - "Load incrementally - start with 1-2 most relevant"
+    - "Follow related_resources links for connected content"
+    - "Monitor context window usage throughout session"
+  
+  context_management:
+    warnings:
+      - "Resources > 30k chars: Warning logged"
+      - "Resources > 50k chars: Error with suggestion to split"
+    strategies:
+      - "Discovery-first workflow (90% context reduction)"
+      - "Progressive loading (incremental context management)"
+      - "Type-specific search (faster, fewer results)"
+  
+  configuration:
+    global: |
+      {
+        "tools": {
+          "resource_*": true  // Enable all discovery tools
+        }
+      }
+    per_agent: |
+      tools:
+        resource_list: true
+        resource_search: true
+        resource_info: true
+        checklist_*: true  // Enable specific resource types
+    
+    security:
+      discovery_tools: "Low risk - read-only metadata listing"
+      loading_tools: "Variable risk - loads full content"
+      recommendation: "Enable discovery globally, restrict loading per-agent"
+
+  example_usage: |
+    # Efficient Resource Discovery Pattern
+    
+    ## Step 1: Start Broad
+    resource_list({ type: "checklist", limit: 10 })
+    # Scan descriptions for relevance
+    
+    ## Step 2: Narrow Down
+    resource_search({ query: "api security", type: "checklist" })
+    # Review top 3-5 results
+    
+    ## Step 3: Get Details
+    resource_info({ tool_name: "checklist_api_security" })
+    # Verify it matches your needs, check related_resources
+    
+    ## Step 4: Load Minimal Set
+    checklist_api_security()
+    knowledge_base_security_patterns()
+    # Only load what you need
+    
+    ## ⚠️ AVOID
+    # Loading everything at once (context window overflow):
+    checklist_api_documentation()
+    checklist_deployment_documentation()
+    checklist_security_audit()
+    # ... (too many resources loaded)
+
+# Related Resources:
+
+related_resources:
+  templates: ["opencode-command-tmpl.yaml", "opencode-task-tmpl.yaml"]
+  documentation: ["docs/agent-resource-mapping.md", "docs/frontmatter-schema.md"]
+  knowledge_bases: ["knowledge-base/loading-strategy.md"]
+
+# References:
+
+references:
+  - name: "OpenCode Agents Documentation"
+    url: "https://opencode.ai/docs/agents/"
+    purpose: "Complete agent configuration guide"
+  
+  - name: "OpenCode Tools Documentation"
+    url: "https://opencode.ai/docs/tools/"
+    purpose: "Available tools and configuration"
+  
+  - name: "OpenCode Permissions Documentation"
+    url: "https://opencode.ai/docs/permissions/"
+    purpose: "Permission system details"
+  
+  - name: "OpenCode Models Documentation"
+    url: "https://opencode.ai/docs/models/"
+    purpose: "Available models and providers"

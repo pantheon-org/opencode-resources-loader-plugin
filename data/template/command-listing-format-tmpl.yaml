@@ -1,0 +1,419 @@
+# Command Listing Format Template
+# Standard template structure for presenting OpenCode command information
+
+# Resource Loader Discovery Fields
+type: template
+description: "Standardized format for presenting command information in documentation, TUI, and listings"
+category: meta
+tags: [template, meta, listing, format, command]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Additional Metadata
+template_title: "Command Listing Format Template"
+reference: "../knowledge-base/command-system-architecture.md"
+
+# Overview:
+# This template defines the standard format for listing and presenting OpenCode commands.
+# Use this when creating documentation, command outputs, TUI displays, or agent responses
+# that need to present command information in a consistent, readable format.
+
+# Structure Guidelines:
+# 1. Group commands by logical categories
+# 2. Include all essential metadata for each command
+# 3. Use consistent formatting across all command entries
+# 4. Provide summary statistics
+# 5. Include usage guidance
+
+structure:
+  header:
+    format: "# Available OpenCode Commands"
+    required: true
+    note: "Main title for command listing"
+  
+  introduction:
+    format: "Brief explanation of what commands are and how to use them"
+    required: true
+    example: |
+      OpenCode commands are slash commands that execute workflows through agents and tasks.
+      Type / in the TUI to see available commands with autocomplete.
+  
+  category_section:
+    format: |
+      ### [Category Name] Commands
+      
+      [Brief description of category purpose]
+      
+      - `/command-name` - [Brief description]
+    required: true
+    note: "Repeat for each category"
+  
+  summary:
+    format: "**Found N commands total: N global, N project**"
+    required: true
+    note: "Provide count statistics"
+  
+  usage_guidance:
+    format: "## How to Use Commands"
+    required: false
+    note: "Optional section explaining command usage"
+
+# Command Entry Format:
+# Each command should be presented with these fields
+
+command_entry:
+  command_name:
+    format: "`/command-name` or **/command-name**"
+    required: true
+    note: "Exact command name with / prefix"
+    display_options:
+      inline_code: "`/command-name`"
+      bold: "**/command-name**"
+      plain: "/command-name"
+  
+  description:
+    format: "- [Brief description from frontmatter]"
+    required: true
+    source: "frontmatter.description"
+    note: "Keep concise (1 line preferred)"
+  
+  agent:
+    format: "(agent: [agent-name])"
+    required: false
+    source: "frontmatter.agent"
+    note: "Optional, show when relevant"
+  
+  special_attributes:
+    format: "[subtask] or [custom-model]"
+    required: false
+    note: "Flag special command attributes"
+
+# Category Organization:
+# Commands should be grouped into these standard categories
+
+categories:
+  documentation:
+    title: "### Documentation Commands"
+    description: "Generate or improve documentation"
+    typical_commands:
+      - "/api-docs"
+      - "/arch-docs"
+      - "/dev-docs"
+      - "/deploy-docs"
+      - "/pipeline-docs"
+      - "/onboard-docs"
+    when_to_use: "Creating or updating project documentation"
+  
+  development:
+    title: "### Development Commands"
+    description: "Create or modify code and resources"
+    typical_commands:
+      - "/create-command"
+      - "/create-agent"
+      - "/feature"
+    when_to_use: "Building or extending functionality"
+  
+  git:
+    title: "### Git Workflow Commands"
+    description: "Git operations and GitHub integration"
+    typical_commands:
+      - "/commit"
+      - "/gh-flow"
+    when_to_use: "Version control operations"
+  
+  analysis:
+    title: "### Analysis Commands"
+    description: "Analyze code, projects, or resources"
+    typical_commands:
+      - "/research"
+      - "/document"
+    when_to_use: "Understanding or investigating systems"
+  
+  workflow:
+    title: "### Workflow Commands"
+    description: "Execute specific workflows"
+    typical_commands:
+      - "/create-ticket"
+      - "/review-tool"
+    when_to_use: "Standardized processes"
+  
+  utility:
+    title: "### Utility Commands"
+    description: "Helper commands and utilities"
+    typical_commands:
+      - "/list-commands"
+      - "/list-tasks"
+      - "/list-templates"
+      - "/list-knowledge-bases"
+      - "/list-checklists"
+      - "/docs-help"
+    when_to_use: "Discovery and help"
+  
+  session:
+    title: "### Session Management Commands"
+    description: "Manage OpenCode sessions"
+    typical_commands:
+      - "/save-session"
+      - "/resume-session"
+      - "/list-sessions"
+      - "/update-session"
+    when_to_use: "Session persistence and management"
+
+# Complete Example:
+
+example_basic: |
+  # Available OpenCode Commands
+  
+  OpenCode commands are slash commands that execute workflows through agents and tasks.
+  Type / in the TUI to see available commands with autocomplete.
+  
+  ### Documentation Commands
+  
+  Generate or improve documentation.
+  
+  - `/api-docs` - Generates detailed API documentation
+  - `/arch-docs` - Generates system architecture documentation with diagrams
+  - `/dev-docs` - Generates development setup and workflow documentation
+  - `/deploy-docs` - Generates deployment documentation
+  - `/pipeline-docs` - Documents CI/CD pipeline configuration
+  - `/onboard-docs` - Creates onboarding documentation for new team members
+  
+  ### Development Commands
+  
+  Create or modify code and resources.
+  
+  - `/create-command` - Create a new OpenCode slash command
+  - `/create-agent` - Create a new OpenCode agent
+  - `/feature` - Implement a new feature with guidance
+  
+  ### Git Workflow Commands
+  
+  Git operations and GitHub integration.
+  
+  - `/commit` - Create a git commit with conventional commit message
+  - `/gh-flow` - GitHub workflow automation (branch, PR, merge)
+  
+  ### Analysis Commands
+  
+  Analyze code, projects, or resources.
+  
+  - `/research` - Deep research and analysis with comprehensive report
+  - `/document` - Analyze and document codebase structure
+  
+  ### Workflow Commands
+  
+  Execute specific workflows.
+  
+  - `/create-ticket` - Create a well-structured JIRA ticket
+  - `/review-tool` - AI tool approval review and assessment
+  
+  ### Utility Commands
+  
+  Helper commands and utilities.
+  
+  - `/list-commands` - List all available OpenCode commands
+  - `/list-tasks` - List all available OpenCode tasks
+  - `/list-templates` - List all available OpenCode templates
+  - `/list-knowledge-bases` - List all available knowledge bases
+  - `/list-checklists` - List all available checklists
+  - `/docs-help` - Documentation system help and guidance
+  
+  ### Session Management Commands
+  
+  Manage OpenCode sessions.
+  
+  - `/save-session` - Save current session for later resumption
+  - `/resume-session` - Resume a previously saved session
+  - `/list-sessions` - List all saved sessions
+  - `/update-session` - Update session metadata
+  
+  ---
+  
+  **Found 25 commands total: 20 global, 5 project**
+
+example_with_details: |
+  # Available OpenCode Commands
+  
+  [Command listings as above with additional details...]
+  
+  - `/api-docs` - Generates detailed API documentation (agent: documentalist)
+  - `/commit` - Create a git commit with conventional commit message (agent: general)
+  - `/docs-help` - Documentation system help [subtask]
+  
+  ---
+  
+  ## How to Use Commands
+  
+  **Basic Usage:**
+  ```
+  /command-name
+  /command-name "argument"
+  /command-name --option value
+  ```
+  
+  **Autocomplete:**
+  - Type `/` in the TUI to see available commands
+  - Start typing to filter commands
+  - Press Tab to complete
+  
+  **Command Locations:**
+  - Global commands: `~/.config/opencode/command/`
+  - Project commands: `.opencode/command/`
+  - Project commands override global commands with the same name
+  
+  **Special Commands:**
+  - Commands marked [subtask] are internal and used by other commands
+  - Some commands may have custom model or temperature settings
+
+# Formatting Standards:
+
+formatting:
+  headings:
+    h1: "# Available OpenCode Commands"
+    h2: "## [Section like 'How to Use Commands']"
+    h3: "### [Category] Commands"
+  
+  emphasis:
+    command_name_inline: "`/command-name` (inline code)"
+    command_name_bold: "**/command-name** (bold)"
+    command_name_plain: "/command-name (plain)"
+  
+  lists:
+    command_list: "- `/command-name` - Description"
+    with_agent: "- `/command-name` - Description (agent: agent-name)"
+    with_flag: "- `/command-name` - Description [subtask]"
+  
+  separators:
+    between_sections: "---"
+
+# Display Options:
+
+display_options:
+  compact:
+    description: "Minimal display with command name and description only"
+    example: |
+      - `/api-docs` - Generates API documentation
+      - `/commit` - Create conventional commit
+  
+  standard:
+    description: "Standard display with name and description"
+    example: |
+      - `/api-docs` - Generates detailed API documentation
+      - `/arch-docs` - Generates system architecture documentation with diagrams
+      - `/commit` - Create a git commit with conventional commit message
+  
+  detailed:
+    description: "Full display including agent and special attributes"
+    example: |
+      - `/api-docs` - Generates detailed API documentation (agent: documentalist)
+      - `/commit` - Create a git commit with conventional commit message (agent: general)
+      - `/docs-help` - Documentation system help [subtask]
+  
+  autocomplete:
+    description: "TUI autocomplete display format"
+    example: |
+      /api-docs          Generate API documentation
+      /arch-docs         Generate architecture docs
+      /commit            Create conventional commit
+
+# Summary Statistics:
+
+summary_format:
+  basic: "**Found N commands total**"
+  detailed: "**Found N commands total: N global, N project**"
+  by_category: |
+    **Found 25 commands total: 20 global, 5 project**
+    
+    By category:
+    - Documentation: 6 commands
+    - Development: 3 commands
+    - Git: 2 commands
+    - Analysis: 2 commands
+    - Workflow: 2 commands
+    - Utility: 6 commands
+    - Session: 4 commands
+
+# Usage Guidelines:
+
+guidelines:
+  when_to_use:
+    - "Documenting available commands in README or guides"
+    - "Creating command output for /list-commands"
+    - "TUI autocomplete display"
+    - "Help system documentation"
+  
+  customization:
+    - "Adjust detail level based on context (compact, standard, detailed)"
+    - "Filter by category if only subset relevant"
+    - "Show agent for commands where it matters"
+    - "Flag subtasks to indicate internal use"
+  
+  consistency:
+    - "Always use / prefix for command names"
+    - "Use exact command names (filename without .md)"
+    - "Extract description from frontmatter"
+    - "Use standard category names"
+    - "Keep descriptions concise (1 line)"
+
+# Special Command Types:
+
+special_types:
+  subtasks:
+    description: "Internal commands used by other commands"
+    flag: "[subtask]"
+    examples: ["/docs-help"]
+    note: "Mark with [subtask] flag in listings"
+  
+  custom_model:
+    description: "Commands with custom model configuration"
+    flag: "[custom-model]"
+    note: "Indicate when command uses non-default model"
+  
+  project_overrides:
+    description: "Project commands that override global"
+    flag: "[project]"
+    note: "Optional flag to indicate project-specific command"
+
+# Integration:
+
+integration:
+  with_tui:
+    description: "TUI uses this format for autocomplete and help"
+    note: "Compact format preferred for autocomplete"
+  
+  with_commands:
+    description: "Commands use this template for /list-commands output"
+    example: "command/list-commands.md references this template"
+  
+  with_documentation:
+    description: "Documentation uses this template for command reference"
+    example: "docs/commands.md uses this format"
+
+# Best Practices:
+
+best_practices:
+  - "Group commands by category for easy discovery"
+  - "Include category descriptions to guide usage"
+  - "Keep descriptions concise and actionable"
+  - "Use consistent formatting for all command entries"
+  - "Provide summary statistics for overview"
+  - "Always use / prefix for command names"
+  - "Extract descriptions from frontmatter, don't hardcode"
+  - "Link to command-system-architecture for details"
+  - "Flag special commands (subtasks, custom models)"
+  - "Indicate project overrides when applicable"
+
+# Related Resources:
+
+related_resources:
+  knowledge_bases:
+    - "../knowledge-base/command-system-architecture.md"
+  
+  templates:
+    - "../template/opencode-command-tmpl.yaml"
+  
+  commands:
+    - "../command/list-commands.md"
+  
+  tasks:
+    - "../task/opencode-command.md"

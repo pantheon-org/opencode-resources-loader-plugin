@@ -1,0 +1,453 @@
+# Checklist Listing Format Template
+# Standard template structure for presenting OpenCode checklist information
+
+# Resource Loader Discovery Fields
+type: template
+description: "Standardized format for presenting checklist information in documentation, commands, and agents"
+category: meta
+tags: [template, meta, listing, format, checklist]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Additional Metadata
+template_title: "Checklist Listing Format Template"
+reference: "../knowledge-base/checklist-system-architecture.md"
+
+# Overview:
+# This template defines the standard format for listing and presenting OpenCode checklists.
+# Use this when creating documentation, command outputs, or agent responses that need to
+# present checklist information in a consistent, readable format.
+
+# Structure Guidelines:
+# 1. Group checklists by logical categories
+# 2. Include all essential metadata for each checklist
+# 3. Use consistent formatting across all checklist entries
+# 4. Provide summary statistics
+# 5. Include usage guidance for each category
+
+structure:
+  header:
+    format: "# Available OpenCode Checklists"
+    required: true
+    note: "Main title for checklist listing"
+  
+  introduction:
+    format: "Brief explanation of what checklists are and how they're used"
+    required: true
+    example: |
+      OpenCode checklists provide comprehensive validation criteria for ensuring
+      quality and completeness. Checklists are markdown files with checkbox items
+      referenced by commands, tasks, and agents.
+  
+  category_section:
+    format: |
+      ### [Category Name] Checklists
+      
+      [Brief description of category purpose and when to use]
+      
+      - **checklist-name**
+        - Title: [Checklist title]
+        - Description: [Checklist description]
+        - Category: [Category]
+        - Version: [Version]
+        - Purpose: [When to use this checklist]
+    required: true
+    note: "Repeat for each category"
+  
+  summary:
+    format: "**Found N checklists total: N global, N project**"
+    required: true
+    note: "Provide count statistics"
+  
+  usage_guidance:
+    format: "## How Checklists Are Used"
+    required: false
+    note: "Optional section explaining checklist usage"
+
+# Checklist Entry Format:
+# Each checklist should be presented with these fields
+
+checklist_entry:
+  checklist_name:
+    format: "**checklist-name**"
+    bold: true
+    required: true
+    note: "Exact checklist filename without .md extension"
+  
+  title:
+    format: "- Title: [Text from title frontmatter field]"
+    required: true
+    source: "frontmatter.title"
+  
+  description:
+    format: "- Description: [Text from description frontmatter field]"
+    required: true
+    source: "frontmatter.description"
+  
+  category:
+    format: "- Category: [Category name]"
+    required: true
+    source: "frontmatter.category"
+    values: ["documentation", "quality", "development", "operations", "process"]
+  
+  version:
+    format: "- Version: [Semantic version]"
+    required: true
+    source: "frontmatter.version"
+  
+  purpose:
+    format: "- Purpose: [Brief explanation of when to use]"
+    required: true
+    note: "Inferred from description or explicitly stated"
+
+# Category Organization:
+# Checklists should be grouped into these standard categories
+
+categories:
+  documentation:
+    title: "### Documentation Checklists"
+    description: "Validate various types of documentation"
+    when_to_use: "Creating or reviewing API, architecture, development, deployment, onboarding, or pipeline documentation"
+    typical_checklists:
+      - "api-documentation"
+      - "architecture-documentation"
+      - "development-documentation"
+      - "deployment-documentation"
+      - "onboarding-documentation"
+      - "pipeline-documentation"
+    characteristics:
+      - "Comprehensive coverage"
+      - "Format validation"
+      - "Content completeness"
+      - "Quality standards"
+  
+  quality:
+    title: "### Quality Checklists"
+    description: "Ensure quality standards and completeness"
+    when_to_use: "Validating documentation quality, discovering existing documentation"
+    typical_checklists:
+      - "documentation-discovery"
+      - "strict-documentation-validation"
+      - "task-discovery-validation"
+      - "template-discovery-validation"
+      - "knowledge-base-discovery-validation"
+      - "command-discovery-validation"
+    characteristics:
+      - "Process-oriented"
+      - "Discovery and validation"
+      - "Quality enforcement"
+      - "Completeness verification"
+  
+  development:
+    title: "### Development Checklists"
+    description: "Create OpenCode ecosystem resources"
+    when_to_use: "Building new agents, commands, tasks, or other OpenCode resources"
+    typical_checklists:
+      - "opencode-agent"
+      - "opencode-command"
+    characteristics:
+      - "Meta-checklists"
+      - "Template compliance"
+      - "Integration validation"
+      - "Quality assurance"
+  
+  operations:
+    title: "### Operations Checklists"
+    description: "Operational workflows and safety"
+    when_to_use: "GitHub workflows, deployment processes, operational procedures"
+    typical_checklists:
+      - "github-workflow-safety"
+    characteristics:
+      - "Safety-focused"
+      - "Operational procedures"
+      - "Best practices"
+      - "Risk mitigation"
+  
+  process:
+    title: "### Process Checklists"
+    description: "Organizational processes and workflows"
+    when_to_use: "Tool approval, ticket creation, standardized processes"
+    typical_checklists:
+      - "ai-tool-approval"
+      - "jira-ticket-creation"
+    characteristics:
+      - "Process standardization"
+      - "Organizational compliance"
+      - "Structured workflows"
+      - "Quality gates"
+
+# Complete Example:
+
+example_basic: |
+  # Available OpenCode Checklists
+  
+  OpenCode checklists provide comprehensive validation criteria for ensuring
+  quality and completeness. Checklists are markdown files with checkbox items
+  referenced by commands, tasks, and agents.
+  
+  ### Documentation Checklists
+  
+  Validate various types of documentation.
+  
+  **When to use**: Creating or reviewing documentation
+  
+  - **api-documentation**
+    - Title: API Documentation Checklist
+    - Description: Comprehensive checklist for creating and validating API documentation
+    - Category: Documentation
+    - Version: 1.0.0
+    - Purpose: Ensure complete API documentation with proper coverage of endpoints, authentication, and examples
+  
+  - **architecture-documentation**
+    - Title: Architecture Documentation Checklist
+    - Description: Comprehensive checklist for architecture documentation with diagrams
+    - Category: Documentation
+    - Version: 1.0.0
+    - Purpose: Validate architecture documentation includes system design, diagrams, and technical decisions
+  
+  - **development-documentation**
+    - Title: Development Documentation Checklist
+    - Description: Comprehensive checklist for development documentation
+    - Category: Documentation
+    - Version: 1.0.0
+    - Purpose: Ensure development documentation covers setup, contribution guidelines, and workflows
+  
+  ### Quality Checklists
+  
+  Ensure quality standards and completeness.
+  
+  **When to use**: Validating quality, discovering resources
+  
+  - **documentation-discovery**
+    - Title: Documentation Discovery Checklist
+    - Description: Comprehensive checklist for discovering existing documentation
+    - Category: Quality
+    - Version: 1.0.0
+    - Purpose: Ensure thorough discovery of existing documentation to avoid duplication
+  
+  - **strict-documentation-validation**
+    - Title: Strict Documentation Validation Checklist
+    - Description: Validate documentation meets strict formatting standards
+    - Category: Quality
+    - Version: 1.0.0
+    - Purpose: Enforce high documentation quality standards
+  
+  ### Development Checklists
+  
+  Create OpenCode ecosystem resources.
+  
+  **When to use**: Building new OpenCode resources
+  
+  - **opencode-agent**
+    - Title: OpenCode Agent Checklist
+    - Description: Comprehensive QA checklist for creating and validating OpenCode agents
+    - Category: Development
+    - Version: 1.0.0
+    - Purpose: Ensure agents follow templates and integrate properly
+  
+  - **opencode-command**
+    - Title: OpenCode Command Checklist
+    - Description: Comprehensive QA checklist for creating and validating OpenCode commands
+    - Category: Development
+    - Version: 1.0.0
+    - Purpose: Validate commands follow templates and use proper syntax
+  
+  ### Operations Checklists
+  
+  Operational workflows and safety.
+  
+  **When to use**: Operations, deployments, workflows
+  
+  - **github-workflow-safety**
+    - Title: GitHub Workflow Safety Checklist
+    - Description: Ensure safe execution of GitHub workflows
+    - Category: Operations
+    - Version: 1.0.0
+    - Purpose: Validate GitHub workflow operations are safe and follow best practices
+  
+  ### Process Checklists
+  
+  Organizational processes and workflows.
+  
+  **When to use**: Tool approval, ticket creation, processes
+  
+  - **ai-tool-approval**
+    - Title: AI Tool Approval Checklist
+    - Description: Comprehensive evaluation checklist for AI tool approval per RFC 98
+    - Category: Process
+    - Version: 1.0.0
+    - Purpose: Evaluate tools for security, compliance, and organizational fit
+  
+  - **jira-ticket-creation**
+    - Title: JIRA Ticket Creation Checklist
+    - Description: Ensure JIRA tickets follow consistent standards
+    - Category: Process
+    - Version: 1.0.0
+    - Purpose: Create well-structured tickets with clear guidance
+  
+  ---
+  
+  **Found 13 checklists total: 13 global, 0 project**
+
+example_with_size_info: |
+  # Available OpenCode Checklists
+  
+  [Checklist listings as above with additional size information...]
+  
+  - **api-documentation**
+    - Title: API Documentation Checklist
+    - Description: Comprehensive checklist for API documentation
+    - Category: Documentation
+    - Version: 1.0.0
+    - Size: Comprehensive (150 items, 10 sections)
+    - Purpose: Ensure complete API documentation
+  
+  - **opencode-command**
+    - Title: OpenCode Command Checklist
+    - Description: QA checklist for OpenCode commands
+    - Category: Development
+    - Version: 1.0.0
+    - Size: Exhaustive (829+ items, 15 sections)
+    - Purpose: Validate command quality and compliance
+
+# Formatting Standards:
+
+formatting:
+  headings:
+    h1: "# Available OpenCode Checklists"
+    h2: "## [Section like 'How Checklists Are Used']"
+    h3: "### [Category] Checklists"
+  
+  emphasis:
+    checklist_name: "**checklist-name** (bold)"
+    metadata_label: "- Title: (plain)"
+    metadata_value: "[value] (plain)"
+  
+  lists:
+    checklist_list: "- **checklist-name**"
+    metadata: "  - Label: Value (2-space indent)"
+  
+  separators:
+    between_sections: "---"
+
+# Display Options:
+
+display_options:
+  compact:
+    description: "Minimal display with checklist name and title only"
+    example: |
+      - **api-documentation**: API Documentation Checklist
+      - **architecture-documentation**: Architecture Documentation Checklist
+  
+  standard:
+    description: "Standard display with name, title, description, category, version, purpose"
+    example: |
+      - **api-documentation**
+        - Title: API Documentation Checklist
+        - Description: Comprehensive checklist for API documentation
+        - Category: Documentation
+        - Version: 1.0.0
+        - Purpose: Ensure complete API documentation with proper coverage
+  
+  detailed:
+    description: "Full display including size information"
+    includes: ["standard fields", "size (items, sections)", "when to use section"]
+
+# Summary Statistics:
+
+summary_format:
+  basic: "**Found N checklists total**"
+  detailed: "**Found N checklists total: N global, N project**"
+  by_category: |
+    **Found 13 checklists total: 13 global, 0 project**
+    
+    By category:
+    - Documentation: 6 checklists
+    - Quality: 6 checklists
+    - Development: 2 checklists
+    - Operations: 1 checklist
+    - Process: 2 checklists (may overlap with other categories)
+
+# Usage Guidelines:
+
+guidelines:
+  when_to_use:
+    - "Documenting available checklists in README or guides"
+    - "Creating command output for /list-checklists"
+    - "Agent responses explaining checklist capabilities"
+    - "Checklist discovery and selection workflows"
+  
+  customization:
+    - "Adjust detail level based on context (compact, standard, detailed)"
+    - "Filter by category if only subset relevant"
+    - "Include usage guidance for less experienced users"
+    - "Add summary statistics for overview context"
+  
+  consistency:
+    - "Use exact checklist names (filename without .md extension)"
+    - "Extract title from frontmatter title field"
+    - "Extract description from frontmatter description field"
+    - "Use standard category names"
+    - "Follow semantic versioning for version numbers"
+
+# Integration:
+
+integration:
+  with_commands:
+    description: "Commands use this template for /list-checklists output"
+    example: "command/list-checklists.md references this template"
+  
+  with_documentation:
+    description: "Documentation uses this template for checklist reference sections"
+    example: "docs/checklists.md uses this format"
+  
+  with_agents:
+    description: "Agents use this template when explaining available checklists"
+    note: "Agents may adapt format based on context"
+
+# Best Practices:
+
+best_practices:
+  - "Always group checklists by category"
+  - "Include category descriptions and 'when to use' guidance"
+  - "Extract metadata from frontmatter, don't hardcode"
+  - "Use consistent formatting for all checklist entries"
+  - "Provide summary statistics for context"
+  - "Include usage guidance for less experienced users"
+  - "Keep checklist names exact (match filenames)"
+  - "Link to checklist-system-architecture knowledge base for details"
+  - "Note special checklists (meta, exhaustive)"
+  - "Indicate project overrides when applicable"
+
+# Special Checklist Types:
+
+special_types:
+  meta_checklists:
+    description: "Checklists for creating OpenCode resources"
+    examples: ["opencode-agent", "opencode-command"]
+    note: "Flag these as meta/development checklists"
+  
+  discovery_checklists:
+    description: "Checklists for resource discovery"
+    examples: ["documentation-discovery", "task-discovery-validation"]
+    note: "Emphasize their discovery purpose"
+  
+  exhaustive_checklists:
+    description: "Very comprehensive checklists (200+ items)"
+    examples: ["opencode-command"]
+    note: "Note their comprehensive nature"
+
+# Related Resources:
+
+related_resources:
+  knowledge_bases:
+    - "../knowledge-base/checklist-system-architecture.md"
+  
+  templates:
+    - "../template/opencode-checklist-tmpl.yaml"
+  
+  commands:
+    - "../command/list-checklists.md"
+  
+  tasks:
+    - "../task/opencode-checklist.md"

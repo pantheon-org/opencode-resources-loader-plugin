@@ -5,6 +5,31 @@ import { parseResource } from './parse';
 
 /**
  * Discover all markdown files in the specified resource directories
+ *
+ * Recursively scans base paths for markdown files in resource type directories.
+ * Supports multiple base paths with priority handling (last path wins on duplicates).
+ *
+ * @param basePaths - Array of base directory paths to scan (e.g., ~/.opencode, .opencode)
+ * @param types - Array of resource types to discover (agent, checklist, command, etc.)
+ * @returns Promise resolving to array of discovered and parsed resources
+ *
+ * @example
+ * const resources = await discoverResources(
+ *   ['~/.opencode', '.opencode'],
+ *   ['checklist', 'task', 'template']
+ * );
+ * console.log(`Discovered ${resources.length} resources`);
+ *
+ * @remarks
+ * - Scans recursively for .md files in each type directory
+ * - Handles missing directories gracefully (ENOENT)
+ * - Detects and warns about duplicate tool names
+ * - Priority order: last path in basePaths array wins
+ * - Parses frontmatter and extracts descriptions during discovery
+ *
+ * Error handling:
+ * - ENOENT (directory not found): Silent, expected for new installations
+ * - Other errors: Logged as warnings, discovery continues
  */
 // eslint-disable-next-line complexity
 export const discoverResources = async (

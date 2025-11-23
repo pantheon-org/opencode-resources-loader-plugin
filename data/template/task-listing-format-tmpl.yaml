@@ -1,0 +1,417 @@
+# Task Listing Format Template
+# Standard template structure for presenting OpenCode task information
+
+# Resource Loader Discovery Fields
+type: template
+description: "Standardized format for presenting task information in documentation, commands, and agents"
+category: meta
+tags: [template, meta, listing, format, task]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Additional Metadata
+template_title: "Task Listing Format Template"
+reference: "../knowledge-base/task-system-architecture.md"
+
+# Overview:
+# This template defines the standard format for listing and presenting OpenCode tasks.
+# Use this when creating documentation, command outputs, or agent responses that need to
+# present task information in a consistent, readable format.
+
+# Structure Guidelines:
+# 1. Group tasks by logical categories
+# 2. Include all essential metadata for each task
+# 3. Use consistent formatting across all task entries
+# 4. Provide summary statistics
+# 5. Include usage guidance for each category
+
+structure:
+  header:
+    format: "# Available OpenCode Tasks"
+    required: true
+    note: "Main title for task listing"
+  
+  introduction:
+    format: "Brief explanation of what tasks are and how they're used"
+    required: true
+    example: |
+      OpenCode tasks define multi-step workflows for complex operations.
+      Tasks are invoked by commands, agents, and other tasks.
+  
+  category_section:
+    format: |
+      ### [Category Name] Tasks
+      
+      [Brief description of category purpose and when to use]
+      
+      - **task-name**
+        - Description: [Task description]
+        - Category: [Category]
+        - Version: [Version]
+        - Purpose: [When to use this task]
+    required: true
+    note: "Repeat for each category"
+  
+  summary:
+    format: "**Found N tasks total: N global, N project**"
+    required: true
+    note: "Provide count statistics"
+  
+  usage_guidance:
+    format: "## How to Use Tasks"
+    required: false
+    note: "Optional section explaining task invocation"
+
+# Task Entry Format:
+# Each task should be presented with these fields
+
+task_entry:
+  task_name:
+    format: "**task-name**"
+    bold: true
+    required: true
+    note: "Exact task filename without .md extension"
+  
+  description:
+    format: "- Description: [Text from frontmatter description field]"
+    required: true
+    source: "frontmatter.description"
+  
+  category:
+    format: "- Category: [Category name]"
+    required: true
+    source: "frontmatter.category"
+    values: ["Analysis", "Documentation", "Development", "Operations", "Research"]
+  
+  version:
+    format: "- Version: [Semantic version]"
+    required: true
+    source: "frontmatter.version"
+  
+  purpose:
+    format: "- Purpose: [Brief explanation of when to use]"
+    required: true
+    note: "Inferred from task content or explicitly stated"
+
+# Category Organization:
+# Tasks should be grouped into these standard categories
+
+categories:
+  analysis:
+    title: "### Analysis Tasks"
+    description: "Tasks for analyzing codebases, infrastructure, and project context"
+    when_to_use: "Understanding existing systems, technology stacks, deployment strategies"
+    typical_tasks:
+      - "technology-detection"
+      - "infrastructure-analysis"
+      - "deployment-strategy"
+      - "project-context"
+  
+  documentation:
+    title: "### Documentation Tasks"
+    description: "Tasks for discovering and managing documentation"
+    when_to_use: "Before creating or updating documentation"
+    typical_tasks:
+      - "documentation-discovery"
+  
+  development:
+    title: "### Development Tasks"
+    description: "Tasks for creating OpenCode ecosystem resources (meta tasks)"
+    when_to_use: "Building new agents, commands, tasks, checklists, knowledge bases, templates"
+    typical_tasks:
+      - "opencode-agent"
+      - "opencode-command"
+      - "opencode-task"
+      - "opencode-checklist"
+      - "opencode-knowledge-base"
+      - "opencode-template"
+    note: "These are meta tasks that create other resources"
+  
+  operations:
+    title: "### Operations Tasks"
+    description: "Tasks for CI/CD, deployment, and operational workflows"
+    when_to_use: "Setting up pipelines, deployment automation"
+    typical_tasks:
+      - "pipeline-architect"
+  
+  research:
+    title: "### Research Tasks"
+    description: "Tasks for research, evaluation, and approval processes"
+    when_to_use: "Tool evaluation, approval documentation generation"
+    typical_tasks:
+      - "ai-tool-approval-research"
+
+# Complete Example:
+
+example_basic: |
+  # Available OpenCode Tasks
+  
+  OpenCode tasks define multi-step workflows for complex operations. Tasks are invoked by commands, agents, and other tasks.
+  
+  ### Analysis Tasks
+  
+  Tasks for analyzing codebases, infrastructure, and project context.
+  
+  **When to use**: Understanding existing systems, technology stacks, deployment strategies
+  
+  - **technology-detection**
+    - Description: Comprehensive technology stack detection for any codebase
+    - Category: Analysis
+    - Version: 1.0.0
+    - Purpose: Identify programming languages, frameworks, and tools used in a project
+  
+  - **infrastructure-analysis**
+    - Description: Focused infrastructure and architecture pattern detection
+    - Category: Analysis
+    - Version: 1.0.0
+    - Purpose: Analyze databases, messaging systems, monitoring, and architecture patterns
+  
+  - **deployment-strategy**
+    - Description: Deployment strategies, CI/CD pipelines, and operational concerns
+    - Category: Operations
+    - Version: 1.0.0
+    - Purpose: Analyze deployment configurations and containerization strategies
+  
+  - **project-context**
+    - Description: Lightweight, quick project context analysis using shell commands
+    - Category: Analysis
+    - Version: 1.0.0
+    - Purpose: Rapid project understanding and context gathering
+  
+  ### Documentation Tasks
+  
+  Tasks for discovering and managing documentation.
+  
+  **When to use**: Before creating or updating documentation
+  
+  - **documentation-discovery**
+    - Description: Comprehensive discovery of existing documentation
+    - Category: Documentation
+    - Version: 1.0.0
+    - Purpose: Find and catalog all documentation before creating or updating
+  
+  ### Development Tasks
+  
+  Tasks for creating OpenCode ecosystem resources (meta tasks).
+  
+  **When to use**: Building new agents, commands, tasks, checklists, knowledge bases, templates
+  
+  - **opencode-agent**
+    - Description: Task for creating new OpenCode agents following templates
+    - Category: Development
+    - Version: 1.0.0
+    - Purpose: Create specialized agents with proper configuration
+  
+  - **opencode-command**
+    - Description: Task for creating new OpenCode slash commands following templates
+    - Category: Development
+    - Version: 1.0.0
+    - Purpose: Create custom slash commands for repetitive workflows
+  
+  - **opencode-task**
+    - Description: Task for creating new OpenCode tasks following templates
+    - Category: Development
+    - Version: 1.0.0
+    - Purpose: Create reusable task definitions for complex workflows
+  
+  - **opencode-checklist**
+    - Description: Task for creating new OpenCode checklists following templates
+    - Category: Development
+    - Version: 1.0.0
+    - Purpose: Create comprehensive validation checklists
+  
+  - **opencode-knowledge-base**
+    - Description: Task for creating new OpenCode knowledge bases following templates
+    - Category: Development
+    - Version: 1.0.0
+    - Purpose: Create knowledge base articles documenting patterns and best practices
+  
+  - **opencode-template**
+    - Description: Task for creating new OpenCode templates following standards
+    - Category: Development
+    - Version: 1.0.0
+    - Purpose: Create templates for new resource types
+  
+  ### Operations Tasks
+  
+  Tasks for CI/CD, deployment, and operational workflows.
+  
+  **When to use**: Setting up pipelines, deployment automation
+  
+  - **pipeline-architect**
+    - Description: Create optimized CI/CD pipeline configurations
+    - Category: Operations
+    - Version: 1.0.0
+    - Purpose: Design multi-stage builds, security scanning, and deployment automation
+  
+  ### Research Tasks
+  
+  Tasks for research, evaluation, and approval processes.
+  
+  **When to use**: Tool evaluation, approval documentation generation
+  
+  - **ai-tool-approval-research**
+    - Description: Automated AI tool research, evaluation, and approval documentation
+    - Category: Research
+    - Version: 1.0.0
+    - Purpose: Generate comprehensive tool approval documentation
+  
+  ---
+  
+  **Found 13 tasks total: 13 global, 0 project**
+
+example_with_usage_guidance: |
+  # Available OpenCode Tasks
+  
+  [Task listings as above...]
+  
+  ---
+  
+  ## How to Use Tasks
+  
+  Tasks are invoked by:
+  
+  - **Commands**: Commands execute tasks for complex workflows (e.g., `/create-command` uses `opencode-command` task)
+  - **Agents**: Agents reference tasks for multi-step operations
+  - **Other Tasks**: Tasks can reference other tasks for sub-workflows
+  
+  ## Task Structure
+  
+  All tasks follow a consistent structure:
+  
+  1. **Frontmatter**: description, mode, temperature, version, category
+  2. **Purpose**: What the task accomplishes
+  3. **When to Use**: Appropriate use cases and anti-patterns
+  4. **Input Requirements**: Required and optional inputs
+  5. **Task Execution Steps**: 3-7 sequential steps
+  6. **Task Output Summary**: What the task produces
+  7. **Success Criteria**: Measurable completion criteria
+  8. **Quality Checks**: Validation requirements
+  9. **Examples**: 2-3 complete working examples
+  10. **References**: Related resources and documentation
+  
+  ## Task Locations
+  
+  - Global tasks: `~/.config/opencode/task/`
+  - Project tasks: `.opencode/task/`
+  - Project tasks override global tasks with the same name
+
+# Formatting Standards:
+
+formatting:
+  headings:
+    h1: "# Available OpenCode Tasks"
+    h2: "## [Section like 'How to Use Tasks']"
+    h3: "### [Category] Tasks"
+  
+  emphasis:
+    task_name: "**task-name** (bold)"
+    metadata_label: "- Description: (plain)"
+    metadata_value: "[value] (plain)"
+  
+  lists:
+    task_list: "- **task-name**"
+    metadata: "  - Label: Value (2-space indent)"
+  
+  separators:
+    between_sections: "---"
+
+# Display Options:
+
+display_options:
+  compact:
+    description: "Minimal display with task name and description only"
+    example: |
+      - **technology-detection**: Comprehensive technology stack detection
+      - **infrastructure-analysis**: Infrastructure and architecture pattern detection
+  
+  standard:
+    description: "Standard display with name, description, category, version, purpose"
+    example: |
+      - **technology-detection**
+        - Description: Comprehensive technology stack detection for any codebase
+        - Category: Analysis
+        - Version: 1.0.0
+        - Purpose: Identify programming languages, frameworks, and tools
+  
+  detailed:
+    description: "Full display including all metadata and usage guidance"
+    includes: ["standard fields", "when to use section", "task structure", "locations"]
+
+# Summary Statistics:
+
+summary_format:
+  basic: "**Found N tasks total**"
+  detailed: "**Found N tasks total: N global, N project**"
+  by_category: |
+    **Found 13 tasks total: 13 global, 0 project**
+    
+    By category:
+    - Analysis: 4 tasks
+    - Documentation: 1 task
+    - Development: 6 tasks
+    - Operations: 1 task
+    - Research: 1 task
+
+# Usage Guidelines:
+
+guidelines:
+  when_to_use:
+    - "Documenting available tasks in README or guides"
+    - "Creating command output for /list-tasks"
+    - "Agent responses explaining task capabilities"
+    - "Task discovery and selection workflows"
+  
+  customization:
+    - "Adjust detail level based on context (compact, standard, detailed)"
+    - "Filter by category if only subset relevant"
+    - "Include usage guidance for less experienced users"
+    - "Add summary statistics for overview context"
+  
+  consistency:
+    - "Use exact task names (filename without .md)"
+    - "Extract description from frontmatter"
+    - "Use standard category names"
+    - "Follow semantic versioning for version numbers"
+
+# Integration:
+
+integration:
+  with_commands:
+    description: "Commands use this template for /list-tasks output"
+    example: "command/list-tasks.md references this template"
+  
+  with_documentation:
+    description: "Documentation uses this template for task reference sections"
+    example: "docs/tasks.md uses this format"
+  
+  with_agents:
+    description: "Agents use this template when explaining available tasks"
+    note: "Agents may adapt format based on context"
+
+# Best Practices:
+
+best_practices:
+  - "Always group tasks by category"
+  - "Include category descriptions and 'when to use' guidance"
+  - "Extract metadata from frontmatter, don't hardcode"
+  - "Use consistent formatting for all task entries"
+  - "Provide summary statistics for context"
+  - "Include usage guidance for less experienced users"
+  - "Keep task names exact (match filenames)"
+  - "Link to task-system-architecture knowledge base for details"
+
+# Related Resources:
+
+related_resources:
+  knowledge_bases:
+    - "../knowledge-base/task-system-architecture.md"
+  
+  templates:
+    - "../template/opencode-task-tmpl.yaml"
+  
+  commands:
+    - "../command/list-tasks.md"
+  
+  tasks:
+    - "../task/opencode-task.md"

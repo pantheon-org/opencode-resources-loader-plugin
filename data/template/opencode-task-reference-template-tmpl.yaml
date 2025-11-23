@@ -1,0 +1,325 @@
+# Task Reference Template
+# Standard pattern for referencing tasks, knowledge bases, and checklists in documentation commands
+
+# Resource Loader Discovery Fields
+type: template
+description: "Standard pattern for referencing tasks and loading strategies in documentation commands"
+category: Reference
+tags: [template, reference, task, loading, strategy]
+version: 2.0.0
+last_updated: 2025-11-19
+
+# Additional Metadata
+title: "Task Reference Template"
+reference: "docs/template-standard.md"
+
+# Overview:
+# This template defines how documentation commands should reference and load task agents, knowledge bases,
+# and checklists. It establishes a lazy-loading pattern that prioritizes lightweight shell commands first,
+# with task references available when comprehensive analysis is needed.
+
+# Structure Guidelines:
+# 1. Always provide task references but don't auto-load them
+# 2. Start with lightweight shell commands for initial context
+# 3. Let the agent decide when to load comprehensive tasks
+# 4. Group references by type (tasks, knowledge bases, checklists)
+# 5. Include clear usage guidelines for when to load each resource
+
+structure:
+  task_references:
+    description: "Task agents available for comprehensive analysis"
+    format:
+      task_name:
+        path: "Path to task file"
+        lines: "Approximate line count (for context window planning)"
+        purpose: "What this task analyzes"
+        when_to_load: "Situations requiring this task"
+    
+  knowledge_base_references:
+    description: "Knowledge bases with patterns and examples"
+    format:
+      kb_name:
+        path: "Path to knowledge base file"
+        purpose: "What patterns/knowledge this provides"
+        when_to_load: "When this knowledge is relevant"
+  
+  checklist_references:
+    description: "Quality checklists for validation"
+    format:
+      checklist_name:
+        path: "Path to checklist file"
+        requirements: "Number of items"
+        when_to_use: "When to apply this checklist"
+  
+  shell_command_references:
+    description: "Lightweight shell commands for quick analysis"
+    format: "Reference to common-shell-commands-tmpl.yaml"
+
+# Available Task References:
+
+task_references:
+  technology_detection:
+    path: ".opencode/task/technology-detection.md"
+    lines: 226
+    purpose: "Programming languages, frameworks, libraries, project type detection"
+    when_to_load: "Need comprehensive technology stack analysis beyond quick shell commands"
+  
+  infrastructure_analysis:
+    path: ".opencode/task/infrastructure-analysis.md"
+    lines: 281
+    purpose: "Databases, messaging systems, caching, API patterns, architecture"
+    when_to_load: "Documenting infrastructure components and integration patterns"
+  
+  deployment_strategy:
+    path: ".opencode/task/deployment-strategy.md"
+    lines: 398
+    purpose: "CI/CD pipelines, containers, cloud platforms, IaC, deployment automation"
+    when_to_load: "Comprehensive deployment and CI/CD pipeline documentation needed"
+  
+  pipeline_architect:
+    path: ".opencode/task/pipeline-architect.md"
+    purpose: "Pipeline patterns, best practices, and optimization"
+    when_to_load: "Creating, optimizing, or documenting CI/CD pipelines"
+
+# Knowledge Base References:
+
+knowledge_base_references:
+  mermaid_diagrams:
+    path: ".opencode/knowledge-base/mermaid-diagrams.md"
+    purpose: "Diagram templates and Mermaid syntax examples"
+    when_to_load: "Creating architecture diagrams or need syntax reference"
+  
+  jenkins_patterns:
+    path: ".opencode/knowledge-base/jenkins-patterns.md"
+    purpose: "Jenkins scripted and declarative pipeline patterns"
+    when_to_load: "Documenting Jenkins pipelines or need Jenkins-specific examples"
+  
+  gitlab_ci_examples:
+    path: ".opencode/knowledge-base/gitlab-ci-examples.md"
+    purpose: "GitLab CI/CD configuration patterns and examples"
+    when_to_load: "Documenting GitLab CI pipelines or need GitLab-specific patterns"
+  
+  github_actions_templates:
+    path: ".opencode/knowledge-base/github-actions-templates.md"
+    purpose: "GitHub Actions workflow templates and patterns"
+    when_to_load: "Documenting GitHub Actions or need workflow examples"
+  
+  pipeline_best_practices:
+    path: ".opencode/knowledge-base/pipeline-best-practices.md"
+    purpose: "Cross-platform CI/CD best practices and guidelines"
+    when_to_load: "Need platform-agnostic guidance or security best practices"
+
+# Checklist References:
+
+checklist_references:
+  api_documentation:
+    path: ".opencode/checklist/api-documentation.md"
+    requirements: "150+ items"
+    when_to_use: "Validating API documentation completeness and quality"
+  
+  architecture_documentation:
+    path: ".opencode/checklist/architecture-documentation.md"
+    requirements: "161+ items"
+    when_to_use: "Validating architecture documentation completeness and quality"
+  
+  deployment_documentation:
+    path: ".opencode/checklist/deployment-documentation.md"
+    requirements: "183+ items"
+    when_to_use: "Validating deployment documentation completeness and quality"
+  
+  development_documentation:
+    path: ".opencode/checklist/development-documentation.md"
+    requirements: "181+ items"
+    when_to_use: "Validating development documentation completeness and quality"
+  
+  onboarding_documentation:
+    path: ".opencode/checklist/onboarding-documentation.md"
+    when_to_use: "Validating onboarding documentation completeness and quality"
+
+# Guidelines:
+
+guidelines:
+  when_to_load_tasks:
+    - "Comprehensive analysis required beyond quick context"
+    - "Need detailed patterns and best practices"
+    - "Building complete technology stack inventory"
+    - "Documenting complex systems with many components"
+  
+  when_to_use_shell_commands:
+    - "Quick initial assessment needed"
+    - "Getting project orientation"
+    - "Lightweight analysis sufficient"
+    - "Fast turnaround required"
+  
+  when_to_load_knowledge_bases:
+    - "Need specific platform patterns (Jenkins, GitLab, GitHub)"
+    - "Creating examples or code snippets"
+    - "Applying platform-specific best practices"
+    - "Need diagram templates or syntax"
+  
+  when_to_use_checklists:
+    - "Validating documentation completeness"
+    - "Quality assurance phase"
+    - "Ensuring all required sections present"
+    - "Final review before delivery"
+
+# Command-Specific Customization:
+
+command_specific_customization:
+  api_documentation:
+    tasks: ["technology_detection", "infrastructure_analysis"]
+    checklists: ["api_documentation"]
+  
+  architecture_documentation:
+    tasks: ["technology_detection", "infrastructure_analysis", "deployment_strategy (optional)"]
+    knowledge_bases: ["mermaid_diagrams"]
+    checklists: ["architecture_documentation"]
+  
+  deployment_documentation:
+    tasks: ["deployment_strategy", "infrastructure_analysis (optional)"]
+    knowledge_bases: ["pipeline_best_practices"]
+    checklists: ["deployment_documentation"]
+  
+  development_documentation:
+    tasks: ["technology_detection"]
+    checklists: ["development_documentation"]
+  
+  pipeline_documentation:
+    tasks: ["pipeline_architect", "deployment_strategy"]
+    knowledge_bases: ["jenkins_patterns", "gitlab_ci_examples", "github_actions_templates", "pipeline_best_practices"]
+
+# Lazy Loading Strategy:
+
+lazy_loading_strategy:
+  principle: "References over automatic loading"
+  pattern: "Provide task references with clear purposes, let agent decide when to load"
+  benefits:
+    - "Reduces token usage"
+    - "Faster initial response"
+    - "Agent can make informed loading decisions"
+    - "Promotes efficient resource usage"
+
+# Standard Section Format:
+
+standard_section_format: |
+  ## Project Analysis
+  
+  **EFFICIENCY FIRST**: Use lightweight shell commands for initial assessment. Load tasks only when comprehensive analysis is needed.
+  
+  **TASK REFERENCES** - Load as needed for detailed analysis:
+  - [Task Name] (`.opencode/task/file.md`) - [Purpose]
+  - [Task Name] (`.opencode/task/file.md`) - [Purpose]
+  
+  **KNOWLEDGE BASES** - For patterns and examples:
+  - [KB Name] (`.opencode/knowledge-base/file.md`) - [Purpose]
+  
+  ### Lightweight Project Context
+  
+  Run these shell commands for quick initial context:
+  
+  ```bash
+  [Shell command examples]
+  ```
+
+# Examples:
+
+example_minimal_reference: |
+  ## Project Analysis
+  
+  **TASK REFERENCES**:
+  - Technology Detection (`.opencode/task/technology-detection.md`) - Programming languages and frameworks
+  
+  ### Quick Context
+  
+  ```bash
+  # Technology stack
+  find . -type f -name "*.ts" | wc -l
+  ```
+
+example_complete_reference: |
+  ## Project Analysis
+  
+  **EFFICIENCY FIRST**: Use lightweight shell commands for initial assessment.
+  
+  **TASK REFERENCES** - Load as needed:
+  - Technology Detection (`.opencode/task/technology-detection.md`) - Languages, frameworks, project type
+  - Infrastructure Analysis (`.opencode/task/infrastructure-analysis.md`) - Databases, APIs, messaging
+  - Deployment Strategy (`.opencode/task/deployment-strategy.md`) - CI/CD, containers, cloud
+  
+  **KNOWLEDGE BASES**:
+  - Mermaid Diagrams (`.opencode/knowledge-base/mermaid-diagrams.md`) - Diagram templates
+  - Pipeline Best Practices (`.opencode/knowledge-base/pipeline-best-practices.md`) - CI/CD guidance
+  
+  **CHECKLISTS**:
+  - Architecture Documentation (`.opencode/checklist/architecture-documentation.md`) - 161+ validation items
+  
+  ### Lightweight Project Context
+  
+  ```bash
+  # Quick technology detection
+  find . -type f \( -name "*.ts" -o -name "*.js" \) | awk -F. '{print $NF}' | sort | uniq -c
+  
+  # CI/CD detection
+  find .github/workflows -name "*.yml" 2>/dev/null
+  ```
+
+# Integration:
+
+integration:
+  with_documentation_commands:
+    description: "All documentation commands should follow this reference pattern"
+    implementation: "Include task references section with lazy loading strategy"
+  
+  with_shell_commands_template:
+    description: "References common-shell-commands-tmpl.yaml for lightweight alternatives"
+    usage: "Provide shell commands as first option before task loading"
+  
+  with_task_system:
+    description: "Tasks are loaded on-demand via OpenCode Task tool"
+    note: "Commands don't automatically load tasks, they provide references"
+
+# Maintenance:
+
+maintenance:
+  review_frequency: "When new tasks, knowledge bases, or checklists are added"
+  update_triggers:
+    - "New task agent created"
+    - "New knowledge base added"
+    - "New checklist created"
+    - "Task file paths change"
+    - "Line counts significantly change"
+  version_control:
+    - "Update task line counts when tasks are modified"
+    - "Add new references when resources are created"
+    - "Remove deprecated references"
+
+# Best Practices Summary:
+
+best_practices:
+  - "Always provide task references, but don't auto-load"
+  - "Start with shell commands for efficiency"
+  - "Let agents decide when comprehensive analysis is needed"
+  - "Group references by type (tasks, knowledge bases, checklists)"
+  - "Include clear 'when to load' guidance for each reference"
+  - "Maintain accurate line counts for context window planning"
+  - "Reference common-shell-commands-tmpl.yaml for alternatives"
+  - "Update references when new resources are added"
+
+# References:
+
+references:
+  - name: "Common Shell Commands Template"
+    path: "template/common-shell-commands-tmpl.yaml"
+    purpose: "Lightweight command alternatives to tasks"
+  
+  - name: "Template Standard Documentation"
+    path: "docs/template-standard.md"
+    purpose: "Complete template standardization guidelines"
+  
+  - name: "Task Files"
+    path: "task/*.md"
+    purpose: "Comprehensive analysis task agents"
+  
+  - name: "Knowledge Base Files"
+    path: "knowledge-base/*.md"
+    purpose: "Patterns, examples, and best practices"

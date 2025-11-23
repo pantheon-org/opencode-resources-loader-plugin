@@ -1,0 +1,390 @@
+# OpenCode Tool Template
+# Brief description of what this template is for and how it should be used
+
+# Resource Loader Discovery Fields
+type: template
+description: "Template for creating custom OpenCode tools that LLM can invoke"
+category: Development
+tags: [template, opencode, tool, typescript, function, custom]
+version: 1.0.0
+last_updated: 2025-11-21
+
+# Additional Metadata
+title: "OpenCode Tool Template"
+reference: "https://opencode.ai/docs/custom-tools/"
+
+# Tool Overview:
+# Tools are custom functions that the LLM can call during conversations
+# They are defined as TypeScript/JavaScript files in the tool/ directory
+# Tools can execute code in any language - TypeScript is only for the definition
+
+tool_structure:
+  file_location:
+    global: "~/.config/opencode/tool/"
+    per_project: ".opencode/tool/"
+    note: "Filename becomes the tool name (e.g., database.ts becomes 'database' tool)"
+  
+  structure:
+    format: "TypeScript/JavaScript file exporting tool definition"
+    import: "import { tool } from '@opencode-ai/plugin'"
+    export: "export default tool({ ... })"
+    multiple_tools: "Export multiple tools as named exports for math_add, math_multiply pattern"
+  
+  definition:
+    description: "String describing what the tool does for LLM"
+    args: "Object with Zod schema definitions for parameters"
+    execute: "Async function implementing the tool logic"
+
+# Tool Definition Pattern:
+
+basic_pattern: |
+  import { tool } from "@opencode-ai/plugin"
+  
+  export default tool({
+    description: "Tool description for LLM",
+    args: {
+      paramName: tool.schema.string().describe("Parameter description"),
+    },
+    async execute(args, context) {
+      return `Result`
+    },
+  })
+
+# Argument Schemas:
+
+argument_schemas:
+  string_type:
+    syntax: "tool.schema.string()"
+    modifiers: [".describe()", ".url()", ".email()", ".min(n)", ".max(n)", ".optional()", ".default()"]
+    example: "tool.schema.string().url().describe('API endpoint URL')"
+  
+  number_type:
+    syntax: "tool.schema.number()"
+    modifiers: [".describe()", ".min(n)", ".max(n)", ".int()", ".positive()", ".optional()"]
+    example: "tool.schema.number().min(1).max(100).describe('Count between 1-100')"
+  
+  boolean_type:
+    syntax: "tool.schema.boolean()"
+    modifiers: [".describe()", ".optional()", ".default()"]
+    example: "tool.schema.boolean().default(false).describe('Enable verbose mode')"
+  
+  enum_type:
+    syntax: "tool.schema.enum(['value1', 'value2'])"
+    example: "tool.schema.enum(['GET', 'POST', 'PUT']).describe('HTTP method')"
+  
+  array_type:
+    syntax: "tool.schema.array(tool.schema.type())"
+    example: "tool.schema.array(tool.schema.string()).describe('List of file paths')"
+  
+  object_type:
+    syntax: "tool.schema.object({ field: tool.schema.type() })"
+    example: "tool.schema.object({ name: tool.schema.string() })"
+
+# Tool Context:
+
+tool_context:
+  sessionID: "Current chat session identifier"
+  messageID: "Current message identifier"
+  agent: "Name of the agent executing the tool"
+  abort: "AbortSignal to cancel long-running operations"
+
+# Shell Integration:
+
+shell_integration:
+  description: "Execute shell commands using Bun.$"
+  methods:
+    - "await Bun.$`command`.text() - Get stdout as string"
+    - "await Bun.$`command`.json() - Parse JSON output"
+    - "await Bun.$`command`.quiet() - Suppress output"
+    - "await Bun.$`command`.throws(false) - Don't throw on error"
+
+# Example Templates:
+
+example_simple:
+  filename: "timestamp.ts"
+  content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export default tool({
+      description: "Get current timestamp in ISO format",
+      args: {},
+      async execute() {
+        return new Date().toISOString()
+      },
+    })
+
+example_parameterized:
+  filename: "http-request.ts"
+  content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export default tool({
+      description: "Make HTTP request and return response",
+      args: {
+        url: tool.schema.string().url().describe("URL to request"),
+        method: tool.schema.enum(['GET', 'POST']).default('GET'),
+      },
+      async execute(args) {
+        const response = await fetch(args.url, { method: args.method })
+        return await response.text()
+      },
+    })
+
+example_shell:
+  filename: "git-status.ts"
+  content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export default tool({
+      description: "Get git status",
+      args: {},
+      async execute() {
+        const result = await Bun.$`git status --porcelain`
+        return result.text()
+      },
+    })
+
+example_multiple_tools:
+  filename: "math.ts"
+  content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export const add = tool({
+      description: "Add two numbers",
+      args: {
+        a: tool.schema.number().describe("First number"),
+        b: tool.schema.number().describe("Second number"),
+      },
+      async execute(args) {
+        return args.a + args.b
+      },
+    })
+    
+    export const multiply = tool({
+      description: "Multiply two numbers",
+      args: {
+        a: tool.schema.number().describe("First number"),
+        b: tool.schema.number().describe("Second number"),
+      },
+      async execute(args) {
+        return args.a * args.b
+      },
+    })
+
+example_python_integration:
+  python_script: "add.py"
+  python_content: |
+    import sys
+    a = int(sys.argv[1])
+    b = int(sys.argv[2])
+    print(a + b)
+  tool_file: "python-add.ts"
+  tool_content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export default tool({
+      description: "Add two numbers using Python",
+      args: {
+        a: tool.schema.number().describe("First number"),
+        b: tool.schema.number().describe("Second number"),
+      },
+      async execute(args) {
+        const result = await Bun.$`python3 .opencode/tool/add.py ${args.a} ${args.b}`.text()
+        return result.trim()
+      },
+    })
+
+example_database:
+  filename: "database-query.ts"
+  content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export default tool({
+      description: "Query project database",
+      args: {
+        query: tool.schema.string().describe("SQL query to execute"),
+      },
+      async execute(args) {
+        const db = new Database('project.db')
+        const results = db.query(args.query).all()
+        return JSON.stringify(results, null, 2)
+      },
+    })
+
+example_file_operations:
+  filename: "read-config.ts"
+  content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export default tool({
+      description: "Read configuration file",
+      args: {
+        path: tool.schema.string().describe("File path"),
+      },
+      async execute(args) {
+        const file = Bun.file(args.path)
+        return await file.text()
+      },
+    })
+
+example_context_usage:
+  filename: "session-info.ts"
+  content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export default tool({
+      description: "Get current session information",
+      args: {},
+      async execute(args, context) {
+        return `Session: ${context.sessionID}\nAgent: ${context.agent}\nMessage: ${context.messageID}`
+      },
+    })
+
+example_abort_signal:
+  filename: "batch-processor.ts"
+  content: |
+    import { tool } from "@opencode-ai/plugin"
+    
+    export default tool({
+      description: "Process items with cancellation support",
+      args: {
+        items: tool.schema.array(tool.schema.string()).describe("Items to process"),
+      },
+      async execute(args, context) {
+        const results = []
+        for (const item of args.items) {
+          if (context.abort?.aborted) {
+            return `Cancelled after ${results.length} items`
+          }
+          results.push(`Processed: ${item}`)
+        }
+        return results.join("\n")
+      },
+    })
+
+# Best Practices:
+
+best_practices:
+  description:
+    - "Write clear, specific descriptions for LLM understanding"
+    - "Describe what the tool does, not how it works"
+    - "Include expected use cases in description"
+  
+  arguments:
+    - "Use descriptive parameter names"
+    - "Always add .describe() to parameters"
+    - "Use appropriate schema types and validation"
+    - "Make optional parameters truly optional with defaults"
+    - "Use enums to constrain values when possible"
+  
+  execution:
+    - "Keep tool focused on single responsibility"
+    - "Return meaningful results (avoid 'success' or 'done')"
+    - "Return structured data when possible (JSON)"
+    - "Handle errors gracefully, don't let tools crash"
+    - "Use async/await for all operations"
+  
+  performance:
+    - "Avoid long-running operations when possible"
+    - "Use context.abort to support cancellation"
+    - "Cache results when appropriate"
+    - "Return concise output (avoid large data dumps)"
+  
+  security:
+    - "Validate input parameters (Zod helps with this)"
+    - "Sanitize shell command arguments"
+    - "Don't expose sensitive data in return values"
+    - "Be cautious with file system operations"
+
+# Error Handling:
+
+error_handling:
+  pattern: |
+    async execute(args) {
+      try {
+        const result = await Bun.$`risky-command ${args.input}`.text()
+        return result
+      } catch (error) {
+        return `Error: ${error.message}`
+      }
+    }
+  guidelines:
+    - "Always handle potential errors gracefully"
+    - "Return meaningful error messages"
+    - "Don't throw errors unless you want tool execution to stop"
+    - "Use context.abort to check for cancellation"
+
+# Tool Naming:
+
+naming_conventions:
+  filename:
+    - "Use descriptive kebab-case names: database-query.ts"
+    - "Name reflects what tool does: get-status not run-git-command"
+  tool_name:
+    - "Single export: filename becomes tool name"
+    - "Multiple exports: filename_exportname"
+  examples:
+    good: ["database-query.ts", "git-status.ts", "api-fetch.ts"]
+    avoid: ["tool1.ts", "my-tool.ts", "db.ts"]
+
+# Common Patterns:
+
+common_patterns:
+  database_query: "Query database and return formatted results"
+  file_operations: "Read/write files in the project"
+  api_integration: "Call external APIs and return data"
+  git_operations: "Execute git commands and return output"
+  shell_execution: "Run system commands and process output"
+
+# Testing Tools:
+
+testing:
+  unit_testing: "Test tool logic with Bun's test framework"
+  integration_testing: "Test with actual OpenCode instance"
+  steps:
+    - "Create tool in .opencode/tool/ directory"
+    - "Start OpenCode and verify tool loads"
+    - "Ask LLM to use the tool"
+    - "Verify output is correct"
+
+# Integration:
+
+integration:
+  with_commands: "Commands can use tools for specific operations"
+  with_agents: "Agents can access tools based on permissions"
+  with_tasks: "Tasks can invoke tools for data gathering"
+
+# File Organization:
+
+file_organization:
+  naming_convention: "Use kebab-case for multi-word tools"
+  single_purpose: "Each tool should have a clear, single purpose"
+  grouping: "Related tools can use prefixes (e.g., db-query, db-insert)"
+  location:
+    - "Global tools: ~/.config/opencode/tool/"
+    - "Project tools: .opencode/tool/"
+  priority: "Project tools override global tools with same name"
+
+# Troubleshooting:
+
+troubleshooting:
+  tool_not_found: "Check filename and location, verify TypeScript syntax"
+  args_not_validated: "Verify Zod schema is correct"
+  shell_fails: "Test shell command independently"
+  import_fails: "Check @opencode-ai/plugin is installed"
+
+# Size Guidelines:
+
+recommended_size:
+  minimum: "10-20 lines for simple tools"
+  typical: "30-80 lines for standard tools"
+  complex: "80-200 lines for comprehensive tools"
+  note: "Keep tools focused. Complex logic should be in separate modules."
+
+# References:
+
+references:
+  official_docs: "https://opencode.ai/docs/custom-tools/"
+  plugin_api: "https://opencode.ai/docs/plugins/"
+  zod_docs: "https://zod.dev"
+  bun_shell: "https://bun.sh/docs/runtime/shell"

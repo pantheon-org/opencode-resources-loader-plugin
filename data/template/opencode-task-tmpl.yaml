@@ -1,0 +1,321 @@
+# OpenCode Task Template
+# This YAML template defines the structure for creating comprehensive OpenCode task markdown files
+
+# Resource Loader Discovery Fields
+type: template
+description: "Template for creating comprehensive OpenCode tasks with multi-step workflows"
+category: Development
+tags: [template, opencode, task, workflow, creation]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Template Structure
+metadata:
+  title: "OpenCode Task Template"
+  description: "[Brief one-line description - required for task discovery and selection]"
+  mode: "task"
+  temperature: 0.3  # 0.0-0.3 for deterministic tasks, 0.5-0.8 for creative tasks
+  version: "1.0.0"
+  last_updated: "YYYY-MM-DD"
+  category: "[e.g., Analysis, Documentation, Development, Operations]"
+
+# Structure Guidelines:
+# 1. Start with YAML frontmatter (lines between --- markers)
+# 2. Include title and one-paragraph overview
+# 3. Organize content into logical sections
+# 4. End with examples and references
+
+frontmatter_structure:
+  required_fields:
+    title: "Human-readable task name (max 80 chars)"
+    description: "Brief one-line description - REQUIRED for task discovery (max 150 chars)"
+    type: "Always set to 'task' for task files"
+  
+  optional_fields:
+    category: "Primary category (analysis, documentation, development, operations)"
+    mode: "Always set to 'task' for task files"
+    temperature: "LLM temperature (0.0-1.0). 0.0-0.3 for deterministic, 0.5-0.8 for creative"
+    version: "Semantic version number (start at 1.0.0)"
+    estimated_duration: "Time estimate (e.g., '5-10 minutes', '1-2 hours')"
+    tags: "5-10 searchable keywords as array"
+
+  example: |
+    ---
+    title: "CloudWatch Metrics Analysis"
+    description: "Analyze AWS CloudWatch metrics and generate actionable recommendations for optimization"
+    type: task
+    category: analysis
+    mode: task
+    temperature: 0.3
+    version: 1.0.0
+    estimated_duration: "10-15 minutes"
+    tags: [aws, cloudwatch, metrics, analysis, monitoring]
+    ---
+    
+    # CloudWatch Metrics Analysis
+    
+    [Rest of markdown content follows...]
+    
+  field_descriptions:
+    title: "Appears in tool listings and resource name"
+    description: "Shown in tool descriptions - must be clear and concise"
+    type: "Resource type identifier for plugin loading"
+    category: "Helps organize and filter tasks"
+    mode: "Task-specific field for execution mode"
+    temperature: "Controls LLM creativity during task execution"
+    estimated_duration: "Helps users plan when to run task"
+    tags: "Enable future search and filtering capabilities"
+
+# Main Document Sections:
+
+document_sections:
+  - section: "Title (H1)"
+    format: "# [Task Name]"
+    required: true
+  
+  - section: "Overview Paragraph"
+    content: "One paragraph overview of what this task accomplishes"
+    required: true
+  
+  - section: "Purpose"
+    format: "## Purpose"
+    content: "Detailed explanation of task goals, objectives, outcomes, target users, value proposition"
+    required: true
+  
+  - section: "When to Use This Task"
+    format: "## When to Use This Task"
+    content: "Use cases (when to use) and anti-patterns (when NOT to use)"
+    required: true
+  
+  - section: "Input Requirements"
+    format: "## Input Requirements"
+    subsections: ["### Required Information", "### Optional Information"]
+    required: true
+  
+  - section: "Task Execution Steps"
+    format: "## Task Execution Steps"
+    pattern: "### Step N: [Step Name]\n**Actions:**\n**Tools Used:**\n**Outputs:**"
+    note: "Include 3-7 major steps depending on task complexity"
+    required: true
+  
+  - section: "Task Output Summary"
+    format: "## Task Output Summary"
+    content: "Describe primary documents/reports/artifacts generated"
+    required: true
+  
+  - section: "Success Criteria"
+    format: "## Success Criteria"
+    content: "List criteria that indicate successful task completion"
+    required: true
+  
+  - section: "Quality Checks"
+    format: "## Quality Checks"
+    subsections: ["### Completeness Check", "### Accuracy Check", "### Clarity Check"]
+    required: true
+  
+  - section: "Error Handling"
+    format: "## Error Handling"
+    content: "Common issues and resolutions"
+    required: false
+  
+  - section: "Examples"
+    format: "## Examples"
+    pattern: "### Example N: [Use Case Name]\n**Input:**\n**Task Execution:**\n**Outputs:**"
+    note: "Include 2-3 concrete examples showing different use cases"
+    required: true
+  
+  - section: "Task Parameters"
+    format: "## Task Parameters"
+    content: "Configuration options and parameter categories"
+    required: false
+  
+  - section: "Maintenance"
+    format: "## Maintenance"
+    content: "Task update triggers and review schedule"
+    required: false
+  
+  - section: "References"
+    format: "## References"
+    content: "Links to reference documents, templates, knowledge bases"
+    required: true
+
+# Task Type Patterns:
+
+task_type_patterns:
+  workflow_process_style:
+    description: "Multi-stage tasks with document outputs and human review"
+    structure: ["Purpose", "Input requirements", "Execution steps", "Output summary", "Success criteria", "Examples"]
+    example_tasks: ["ai-tool-approval-research", "Document generation tasks"]
+  
+  shell_analysis_style:
+    description: "Diagnostic tasks with autonomous shell commands"
+    structure: ["Purpose", "Shell command sections", "Detection logic", "Usage instructions"]
+    example_tasks: ["technology-detection", "deployment-strategy", "infrastructure-analysis"]
+
+# Formatting Guidelines:
+
+formatting:
+  markdown_elements:
+    headings: ["# [Title]", "## [Section]", "### [Subsection]"]
+    emphasis: ["**[Bold for key terms]**", "_[Italic for emphasis]_", "`[Code inline]`"]
+    lists: ["- Unordered with dash", "1. Ordered with number", "  - Nested with 2-space indent", "- [ ] Checkbox"]
+    code_blocks: "```language\n[Code or configuration]\n```"
+    separators: "--- for horizontal rules between sections"
+  
+  style_conventions:
+    - "Use **bold** for parameter names in descriptions"
+    - "Use --- horizontal rule between major steps"
+    - "Mark optional sections with (if applicable) or (optional)"
+    - "Always include at least 2-3 examples"
+    - "Comment shell/code examples thoroughly"
+
+# Content Principles:
+
+content_principles:
+  clarity: ["Use clear, action-oriented language", "Be specific", "Define technical terms", "Use consistent terminology"]
+  completeness: ["Cover all critical aspects", "Include happy path and edge cases", "Document inputs and outputs", "Link to related resources"]
+  actionability: ["Each step should be executable", "Include followable examples", "Provide specific criteria", "Link to needed tools"]
+  organization: ["Order steps logically", "Group related information", "Use consistent formatting", "Balance detail with readability"]
+  audience: ["Consider who executes this task", "Adjust technical depth", "Make it self-service", "Include context"]
+
+# Example Task Skeleton:
+
+example_skeleton: |
+  ---
+  description: Brief one-line description of the task
+  mode: task
+  temperature: 0.3
+  ---
+  
+  # [Task Name]
+  
+  [One paragraph overview]
+  
+  ## Purpose
+  
+  [Task goals and objectives]
+  
+  ## When to Use This Task
+  
+  Use this task when:
+  - [Condition 1]
+  
+  **Do NOT use this task if:**
+  - [Anti-pattern 1]
+  
+  ## Input Requirements
+  
+  ### Required Information
+  - **[Parameter]**: [Description]
+  
+  ### Optional Information
+  - [Parameter]: [Description]
+  
+  ## Task Execution Steps
+  
+  ### Step 1: [Step Name]
+  
+  **Actions:**
+  1. [Action]
+  
+  **Tools Used:**
+  - [Tool] for [purpose]
+  
+  **Outputs:**
+  - [Output]
+  
+  ---
+  
+  ## Task Output Summary
+  
+  The task generates [number] primary [artifacts]:
+  
+  1. **[Output Type]** ([Format])
+  
+  ## Success Criteria
+  
+  - ✅ [Criterion]
+  
+  ## Quality Checks
+  
+  ### Completeness Check
+  - [ ] [Item]
+  
+  ## Examples
+  
+  ### Example 1: [Use Case]
+  
+  **Input:**
+  - [Parameter]: [Value]
+  
+  **Task Execution:**
+  1. [What happened]
+  
+  **Outputs:**
+  - [Output]: [Description]
+  
+  ---
+  
+  ## References
+  
+  - [Reference document]
+
+# Temperature Guidance:
+
+temperature_values:
+  deterministic: "0.0-0.3 for analytical, data processing, code analysis"
+  balanced: "0.4-0.6 for general purpose, documentation"
+  creative: "0.7-1.0 for content generation, brainstorming"
+  recommendation: "Use 0.0-0.3 for most tasks to ensure consistency"
+
+# Size Guidelines:
+
+recommended_size:
+  sections: "8-12 sections"
+  steps: "4-7 execution steps"
+  examples: "2-3 concrete examples minimum"
+  note: "Size depends on task complexity. Aim for comprehensive but not overwhelming."
+
+# Task Types by Complexity:
+
+task_types:
+  simple: "6-8 sections, 3-5 steps, 2 examples - Single-purpose tasks"
+  standard: "8-10 sections, 4-7 steps, 2-3 examples - Standard workflows"
+  complex: "10-12 sections, 6-9 steps, 3-4 examples - Multi-stage processes"
+
+# Maintenance:
+
+maintenance:
+  review_frequency: "Quarterly or after major changes"
+  update_triggers: ["Process changes", "Tool updates", "New use cases", "Feedback from execution", "Integration updates"]
+  version_control: ["Update version number for major changes", "Update last_updated date", "Document changes in commits"]
+
+# Integration with Other Resources:
+
+integration:
+  templates: "Tasks generate output using templates (template/*.yaml)"
+  knowledge_bases: "Tasks reference knowledge bases for guidance"
+  checklists: "Tasks use checklists for validation"
+  commands: "Commands invoke tasks"
+
+# Best Practices:
+
+best_practices:
+  task_design: ["Focus on single primary objective", "Make tasks composable", "Minimize dependencies", "Provide clear success criteria", "Include error handling"]
+  documentation: ["Write clear descriptions", "Include comprehensive examples", "Document all inputs/outputs", "Explain the 'why' not just 'what'", "Link to related resources"]
+  execution: ["Make steps sequential", "Specify tools clearly", "Provide intermediate outputs", "Include verification steps", "Handle edge cases"]
+  maintenance: ["Review and update regularly", "Track version changes", "Update based on feedback", "Keep examples working", "Maintain consistency"]
+
+# Common Patterns:
+
+common_patterns:
+  analysis: "Input → Analysis → Output Summary"
+  generation: "Gather Info → Process → Generate → Validate"
+  evaluation: "Criteria → Assess → Score → Recommend"
+  workflow: "Setup → Execute → Review → Document"
+
+# Author Notes:
+
+author_notes:
+  critical_elements: ["Description field in frontmatter is REQUIRED", "Temperature should match task type", "Mode must be 'task'", "Include 2-3 working examples", "Document all error conditions"]
+  common_mistakes: ["Forgetting frontmatter description", "Missing temperature setting", "Insufficient examples", "Unclear success criteria", "Missing error handling", "Broken links"]

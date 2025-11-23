@@ -1,0 +1,283 @@
+# OpenCode Template Template
+# Brief description of what this template is for and how it should be used
+
+# Resource Loader Discovery Fields
+type: template
+description: "Meta-template for creating new OpenCode templates following standard structure"
+category: Development
+tags: [template, opencode, meta, standards, creation]
+version: 1.0.0
+last_updated: 2025-11-19
+
+# Markdown Frontmatter Example:
+# When creating a template markdown file (if using markdown format), start with YAML frontmatter:
+#
+# ---
+# title: "OpenCode Command Template"
+# description: "Standard template structure for creating OpenCode slash commands with best practices"
+# type: template
+# category: meta
+# version: 1.0.0
+# tags: [template, command, opencode, reference]
+# ---
+#
+# # OpenCode Command Template
+#
+# [Rest of markdown content follows...]
+#
+# Field Descriptions:
+# - title: Human-readable template name (max 80 chars)
+# - description: Concise description for tool listings (max 150 chars)
+# - type: Always "template" for template files
+# - category: Primary category (meta, documentation, development, configuration)
+# - version: Semantic version (start at 1.0.0)
+# - tags: 5-10 searchable keywords
+#
+# Note: Most templates are YAML format and should include metadata at the top
+# as shown below (lines 36-42). Markdown templates should use frontmatter as shown above.
+
+# Template Metadata (for YAML template files):
+title: "OpenCode Template Template"
+description: "Brief description of this template's purpose"
+version: "1.0.0"
+last_updated: "YYYY-MM-DD"
+category: "[e.g., Documentation, Development, Operations, Configuration]"
+reference: "[Optional: URL or path to related documentation]"
+
+# Overview:
+# [2-3 sentences explaining what this template defines and who should use it]
+# [Explain the context in which this template is used]
+
+# Structure Guidelines:
+# [Numbered list of key structural requirements]
+# 1. [Guideline 1]
+# 2. [Guideline 2]
+# 3. [Guideline 3]
+
+structure:
+  # Define the core structure of what this template describes
+  
+  component_name:
+    description: "What this component is for"
+    format: "[Format or pattern]"
+    required: true  # or false
+    
+  another_component:
+    description: "What this component does"
+    pattern: |
+      [Multi-line pattern example]
+      [Second line of pattern]
+    note: "Additional guidance or context"
+
+# Configuration Options:
+# [If applicable - detailed configuration parameters]
+
+options:
+  option_name:
+    description: "What this option controls"
+    type: "string"  # or boolean, number, array, object
+    required: false
+    default: "default value"
+    values: ["possible", "values", "if", "enumerated"]
+    example: "option_name: example value"
+  
+  another_option:
+    description: "Purpose of this option"
+    type: "boolean"
+    required: true
+    example: "another_option: true"
+
+# Guidelines:
+# [Domain-specific guidance for using this template]
+
+guidelines:
+  when_to_use:
+    - "Use case 1"
+    - "Use case 2"
+    - "Use case 3"
+  
+  when_not_to_use:
+    - "Anti-pattern 1"
+    - "Anti-pattern 2"
+  
+  best_practices:
+    - "Best practice 1"
+    - "Best practice 2"
+    - "Best practice 3"
+
+# Content Principles:
+# [If applicable - principles for content creation]
+
+content_principles:
+  clarity: ["Clear language", "Specific details", "Define terms", "Consistent terminology"]
+  completeness: ["Cover all aspects", "Include examples", "Document edge cases", "Link to resources"]
+  actionability: ["Make it executable", "Provide examples", "Include verification steps", "Link to tools"]
+  organization: ["Logical order", "Group related items", "Use consistent formatting", "Balance depth"]
+
+# Formatting Standards:
+# [If applicable - markdown or other formatting conventions]
+
+formatting:
+  markdown_elements:
+    headings:
+      - "# [Title] - Main title (use once)"
+      - "## [Section] - Major sections"
+      - "### [Subsection] - Subsections"
+    
+    emphasis:
+      - "**[Bold]** for key terms and important points"
+      - "_[Italic]_ for emphasis"
+      - "`[Code]` for inline code, commands, or technical terms"
+    
+    lists:
+      - "- Unordered with dash"
+      - "1. Ordered with numbers"
+      - "  - Nested with 2-space indent"
+    
+    code_blocks: |
+      ```language
+      # Code examples with syntax highlighting
+      example:
+        property: value
+      ```
+    
+    tables: |
+      | Header 1 | Header 2 | Header 3 |
+      |----------|----------|----------|
+      | Value 1  | Value 2  | Value 3  |
+
+# Example Template:
+# [Complete working example showing how to use this template]
+
+example_basic: |
+  [Simple example with minimal required fields]
+  [Show the most common use case]
+
+example_complete: |
+  [Comprehensive example with all fields]
+  [Show advanced usage with optional fields]
+
+example_specific_use_case: |
+  [Example for a specific scenario]
+  [Demonstrate particular pattern or feature]
+
+# Common Patterns:
+# [If applicable - recurring patterns or approaches]
+
+common_patterns:
+  pattern_name:
+    description: "What this pattern is for"
+    use_case: "When to use this pattern"
+    example: |
+      [Code or configuration example]
+      pattern:
+        property: value
+
+# Types/Variants:
+# [If applicable - different types or variants of what this template describes]
+
+types:
+  type_name:
+    description: "What distinguishes this type"
+    use_case: "When to use this type"
+    characteristics: ["Characteristic 1", "Characteristic 2"]
+    example: "Example reference or short example"
+
+# Size Guidelines:
+# All templates should target 250-300 lines
+
+recommended_size:
+  target: "250-300 lines"
+  minimum: "225 lines (250 - 10%)"
+  maximum: "330 lines (300 + 10%)"
+  tolerance: "±10% allowed"
+  note: "Keep templates focused and comprehensive within this range. Split larger topics into multiple templates."
+
+# Integration:
+# [How this template integrates with other parts of the system]
+
+integration:
+  with_component_a: "How this integrates with component A"
+  with_component_b: "How this integrates with component B"
+  with_component_c: "How this integrates with component C"
+
+# Usage Notes:
+# [Important notes about using this template]
+
+usage_notes:
+  - "Important note 1"
+  - "Important note 2"
+  - "Important note 3"
+  - "Common gotcha or pitfall to avoid"
+
+# Maintenance:
+# [Information about maintaining content created from this template]
+
+maintenance:
+  review_frequency: "When to review (e.g., Quarterly, Annually)"
+  update_triggers: ["Trigger 1", "Trigger 2", "Trigger 3"]
+  version_control: ["Version control guideline 1", "Version control guideline 2"]
+
+# Best Practices Summary:
+# [Condensed list of key best practices]
+
+best_practices:
+  - "Key practice 1"
+  - "Key practice 2"
+  - "Key practice 3"
+  - "Key practice 4"
+  - "Key practice 5"
+
+# Troubleshooting:
+# [If applicable - common issues and solutions]
+
+troubleshooting:
+  issue_1:
+    problem: "Description of the problem"
+    solution: "How to resolve it"
+    prevention: "How to avoid this issue"
+  
+  issue_2:
+    problem: "Description of the problem"
+    solution: "How to resolve it"
+    workaround: "Alternative approach if solution not available"
+  
+  issue_3:
+    problem: "Description of the problem"
+    solution: "How to resolve it"
+    related_issues: ["Link to related problems"]
+
+# Anti-Patterns:
+# [Common mistakes and how to avoid them]
+
+anti_patterns:
+  pattern_name_1:
+    description: "What the anti-pattern looks like"
+    why_bad: "Why this causes problems"
+    correct_approach: "How to do it properly"
+    example: "Example showing the right way"
+  
+  pattern_name_2:
+    description: "Description of anti-pattern"
+    why_bad: "Consequences of this approach"
+    correct_approach: "Better alternative"
+
+# Related Resources:
+# [Links to related templates or resources]
+
+related_resources:
+  templates: ["template-name-1.yaml", "template-name-2.yaml"]
+  documentation: ["docs/related-doc.md"]
+  knowledge_bases: ["knowledge-base/related-kb.md"]
+
+# References:
+# [Links to related documentation, standards, or resources]
+
+references:
+  - name: "Reference Document 1"
+    path: "path/to/document.md"
+    purpose: "What this reference provides"
+  
+  - name: "External Resource"
+    url: "https://example.com"
+    purpose: "What this resource provides"
