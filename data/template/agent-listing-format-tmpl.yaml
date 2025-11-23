@@ -1,0 +1,442 @@
+# Agent Listing Format Template
+# Standard template structure for presenting OpenCode agent information
+
+# Resource Loader Discovery Fields
+type: template
+description: "Standardized format for presenting agent information in documentation, TUI, and listings"
+category: meta
+tags: [template, meta, listing, format, agent]
+version: 1.0.0
+last_updated: 2025-11-23
+
+# Additional Metadata
+template_title: "Agent Listing Format Template"
+reference: "../knowledge-base/agent-configuration-reference.md"
+
+# Overview:
+# This template defines the standard format for listing and presenting OpenCode agents.
+# Use this when creating documentation, command outputs, TUI displays, or agent responses
+# that need to present agent information in a consistent, readable format.
+
+# Structure Guidelines:
+# 1. Group agents by type (primary agents vs subagents)
+# 2. Include all essential metadata for each agent
+# 3. Use consistent formatting across all agent entries
+# 4. Provide summary statistics
+# 5. Include invocation guidance
+
+structure:
+  header:
+    format: "# OpenCode Agents"
+    required: true
+    note: "Main title for agent listing"
+  
+  introduction:
+    format: "Brief explanation of what agents are and how to use them"
+    required: true
+    example: |
+      OpenCode agents are specialized AI assistants configured for specific tasks and workflows.
+      Primary agents are Tab-switchable, subagents are @-invokable.
+  
+  primary_section:
+    format: |
+      ## Primary Agents
+      
+      (Invoked by Tab selection or Ctrl+K)
+      
+      - **agent-name** - [Brief description]
+        - Mode: primary
+        - [Optional: Key configuration details]
+    required: true
+    note: "List all primary agents"
+  
+  subagent_section:
+    format: |
+      ## Subagents
+      
+      (Invoked with @agent-name)
+      
+      - **@agent-name** - [Brief description]
+        - Mode: subagent
+        - [Optional: Key configuration details]
+    required: true
+    note: "List all subagents"
+  
+  summary:
+    format: "**Found N agents total: X primary, Y subagents (Z global, A project)**"
+    required: true
+    note: "Provide count statistics"
+  
+  usage_guidance:
+    format: "## How to Use Agents"
+    required: false
+    note: "Optional section explaining agent usage"
+
+# Agent Entry Format:
+# Each agent should be presented with these fields
+
+agent_entry:
+  agent_name:
+    format: "**agent-name** or **@agent-name**"
+    required: true
+    note: "Use @ prefix for subagents, no prefix for primary agents"
+    display_options:
+      primary: "**agent-name**"
+      subagent: "**@agent-name**"
+      plain: "agent-name"
+  
+  description:
+    format: "- [Brief description from frontmatter]"
+    required: true
+    source: "frontmatter.description"
+    note: "Keep concise (1-2 lines preferred)"
+  
+  mode:
+    format: "Mode: [primary|subagent|all]"
+    required: true
+    source: "frontmatter.mode"
+    note: "Show agent mode"
+  
+  model:
+    format: "Model: [model-name]"
+    required: false
+    source: "frontmatter.model"
+    note: "Optional, show when using custom model"
+  
+  temperature:
+    format: "Temperature: [value]"
+    required: false
+    source: "frontmatter.temperature"
+    note: "Optional, show when non-default"
+  
+  tools:
+    format: "Tools: [tool1, tool2, ...]"
+    required: false
+    source: "frontmatter.tools"
+    note: "Optional, show when significant"
+  
+  permissions:
+    format: "Permissions: [perm1, perm2, ...]"
+    required: false
+    source: "frontmatter.permissions"
+    note: "Optional, show when significant"
+  
+  special_attributes:
+    format: "[built-in] or [project-override]"
+    required: false
+    note: "Flag special agent attributes"
+
+# Agent Type Organization:
+# Agents should be grouped into these standard types
+
+agent_types:
+  primary:
+    title: "## Primary Agents"
+    description: "Tab-switchable agents for main interaction"
+    invocation: "Tab or Ctrl+K"
+    typical_agents:
+      - "build"
+      - "plan"
+    when_to_use: "Main development workflows and interactive sessions"
+  
+  subagent:
+    title: "## Subagents"
+    description: "Specialized agents invoked for specific tasks"
+    invocation: "@agent-name"
+    typical_agents:
+      - "general"
+    when_to_use: "Specialized tasks requiring focused expertise"
+
+# Complete Example:
+
+example_basic: |
+  # OpenCode Agents
+  
+  OpenCode agents are specialized AI assistants configured for specific tasks and workflows.
+  Primary agents are Tab-switchable, subagents are @-invokable.
+  
+  ## Primary Agents
+  
+  (Invoked by Tab selection or Ctrl+K)
+  
+  - **build** - Main agent focused on building and implementing code
+    - Mode: primary
+    - Tools: Full access to write, edit, bash
+  
+  - **plan** - Planning agent focused on architecture and design
+    - Mode: primary
+    - Tools: Read-only access, no file modifications
+  
+  ## Subagents
+  
+  (Invoked with @agent-name)
+  
+  - **@general** - General-purpose assistant for various tasks
+    - Mode: subagent
+    - Tools: Standard tool access
+  
+  ---
+  
+  **Found 3 agents total: 2 primary, 1 subagent (3 global, 0 project)**
+
+example_with_details: |
+  # OpenCode Agents
+  
+  OpenCode agents are specialized AI assistants configured for specific tasks and workflows.
+  Primary agents are Tab-switchable, subagents are @-invokable.
+  
+  ## Primary Agents
+  
+  (Invoked by Tab selection or Ctrl+K)
+  
+  - **build** - Main agent focused on building and implementing code [built-in]
+    - Mode: primary
+    - Model: claude-3-7-sonnet-20250219
+    - Tools: Full access (write, edit, bash, read, glob, grep)
+    - Permissions: All allowed
+  
+  - **plan** - Planning agent focused on architecture and design [built-in]
+    - Mode: primary
+    - Model: claude-3-7-sonnet-20250219
+    - Tools: Read-only (read, glob, grep)
+    - Permissions: Limited (no file modifications)
+  
+  - **documentalist** - Documentation specialist [project-override]
+    - Mode: primary
+    - Model: claude-3-5-sonnet-20241022
+    - Tools: Standard access
+    - Temperature: 0.7
+  
+  ## Subagents
+  
+  (Invoked with @agent-name)
+  
+  - **@general** - General-purpose assistant for various tasks [built-in]
+    - Mode: subagent
+    - Model: claude-3-7-sonnet-20250219
+    - Tools: Standard tool access
+  
+  - **@reviewer** - Code review specialist [project]
+    - Mode: subagent
+    - Model: claude-3-5-sonnet-20241022
+    - Tools: Read-only access
+    - Temperature: 0.3
+  
+  ---
+  
+  **Found 5 agents total: 3 primary, 2 subagents (3 global, 2 project)**
+  
+  ## How to Use Agents
+  
+  **Primary Agents:**
+  - Switch agents: Press Tab or Ctrl+K
+  - View current agent: Shows in TUI header
+  - Use for: Main development workflows
+  
+  **Subagents:**
+  - Invoke by @mention: `@agent-name do something`
+  - Used automatically by primary agents when needed
+  - Creates child sessions (Ctrl+Right/Left to navigate)
+  
+  **Agent Locations:**
+  - Global agents: `~/.config/opencode/agent/`
+  - Project agents: `.opencode/agent/`
+  - Project agents can override global agents with the same name
+  
+  **Built-in Agents:**
+  OpenCode includes built-in agents (Build, Plan, General) that can be customized
+  in your configuration file.
+
+# Formatting Standards:
+
+formatting:
+  headings:
+    h1: "# OpenCode Agents"
+    h2: "## [Section like 'Primary Agents' or 'How to Use Agents']"
+  
+  emphasis:
+    agent_name_primary: "**agent-name** (bold, no prefix)"
+    agent_name_subagent: "**@agent-name** (bold with @ prefix)"
+    agent_name_plain: "agent-name (plain)"
+  
+  lists:
+    agent_entry: "- **agent-name** - Description"
+    with_mode: "- **agent-name** - Description\n  - Mode: primary"
+    with_details: |
+      - **agent-name** - Description [flag]
+        - Mode: primary
+        - Model: model-name
+        - Tools: tool-list
+  
+  separators:
+    between_sections: "---"
+
+# Display Options:
+
+display_options:
+  compact:
+    description: "Minimal display with agent name and description only"
+    example: |
+      - **build** - Main build agent
+      - **plan** - Planning agent
+      - **@general** - General-purpose assistant
+  
+  standard:
+    description: "Standard display with name, description, and mode"
+    example: |
+      - **build** - Main agent focused on building and implementing code
+        - Mode: primary
+      - **@general** - General-purpose assistant for various tasks
+        - Mode: subagent
+  
+  detailed:
+    description: "Full display including all configuration details"
+    example: |
+      - **build** - Main agent focused on building and implementing code [built-in]
+        - Mode: primary
+        - Model: claude-3-7-sonnet-20250219
+        - Tools: Full access (write, edit, bash, read, glob, grep)
+        - Temperature: 1.0
+  
+  tui:
+    description: "TUI agent switcher display format"
+    example: |
+      build           Main build agent
+      plan            Planning agent
+      @general        General-purpose assistant
+
+# Summary Statistics:
+
+summary_format:
+  basic: "**Found N agents total**"
+  by_type: "**Found N agents total: X primary, Y subagents**"
+  detailed: "**Found N agents total: X primary, Y subagents (Z global, A project)**"
+  with_categories: |
+    **Found 8 agents total: 5 primary, 3 subagents (6 global, 2 project)**
+    
+    By type:
+    - Primary agents: 5
+    - Subagents: 3
+    
+    By location:
+    - Global: 6
+    - Project: 2
+
+# Usage Guidelines:
+
+guidelines:
+  when_to_use:
+    - "Documenting available agents in README or guides"
+    - "Creating agent output for /list agents"
+    - "TUI agent switcher display"
+    - "Help system documentation"
+  
+  customization:
+    - "Adjust detail level based on context (compact, standard, detailed)"
+    - "Group by type (primary vs subagent)"
+    - "Show @ prefix for subagents"
+    - "Flag built-in vs custom agents"
+    - "Show key configuration when relevant"
+  
+  consistency:
+    - "Use @ prefix only for subagents"
+    - "Use exact agent names (filename without .md)"
+    - "Extract description from frontmatter"
+    - "Show mode for clarity"
+    - "Keep descriptions concise (1-2 lines)"
+
+# Special Agent Types:
+
+special_types:
+  built_in:
+    description: "Built-in OpenCode agents (Build, Plan, General)"
+    flag: "[built-in]"
+    examples: ["build", "plan", "general"]
+    note: "Mark with [built-in] flag in listings"
+  
+  project_override:
+    description: "Project agents that override built-in agents"
+    flag: "[project-override]"
+    note: "Indicate when project overrides built-in"
+  
+  project_custom:
+    description: "Custom project-specific agents"
+    flag: "[project]"
+    note: "Optional flag to indicate project-specific agent"
+  
+  mode_all:
+    description: "Agents that work as both primary and subagent"
+    flag: "[mode: all]"
+    note: "Indicate flexible usage"
+
+# Agent Modes:
+
+modes:
+  primary:
+    description: "Tab-switchable agents for main interaction"
+    invocation: "Tab key or Ctrl+K"
+    prefix: "No prefix"
+    display: "**agent-name**"
+    use_case: "Main development workflows"
+  
+  subagent:
+    description: "Specialized agents for specific tasks"
+    invocation: "@mention"
+    prefix: "@"
+    display: "**@agent-name**"
+    use_case: "Specialized tasks"
+  
+  all:
+    description: "Can function as either primary or subagent"
+    invocation: "Tab or @mention"
+    prefix: "Context-dependent"
+    display: "**agent-name** or **@agent-name**"
+    use_case: "Flexible usage"
+
+# Integration:
+
+integration:
+  with_tui:
+    description: "TUI uses this format for agent switcher"
+    note: "Compact format preferred for switcher"
+  
+  with_commands:
+    description: "Commands use this template for /list agents output"
+    example: "command/list.md references this template"
+  
+  with_documentation:
+    description: "Documentation uses this template for agent reference"
+    example: "docs/agents.md uses this format"
+
+# Best Practices:
+
+best_practices:
+  - "Group agents by type (primary vs subagent) for easy discovery"
+  - "Include mode information to clarify invocation method"
+  - "Use @ prefix consistently for subagents"
+  - "Keep descriptions concise and actionable"
+  - "Use consistent formatting for all agent entries"
+  - "Provide summary statistics for overview"
+  - "Extract descriptions from frontmatter, don't hardcode"
+  - "Link to agent-configuration-reference for details"
+  - "Flag special agents (built-in, project-override)"
+  - "Show key configuration when relevant (model, tools)"
+  - "Include invocation instructions"
+
+# Related Resources:
+
+related_resources:
+  knowledge_bases:
+    - "../knowledge-base/agent-configuration-reference.md"
+  
+  templates:
+    - "../template/opencode-agent-tmpl.yaml"
+  
+  commands:
+    - "../command/list.md"
+  
+  checklists:
+    - "../checklist/opencode-agent.md"
+  
+  tasks:
+    - "../task/opencode-agent.md"
