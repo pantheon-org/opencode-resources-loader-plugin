@@ -3,6 +3,7 @@ import { Resource, ResourceType } from '../types';
 import { parseFrontmatter } from '../parse/frontmatter';
 import { extractDescription } from '../extract/description';
 import { generateToolName } from '../generate-tool-name';
+import { addResourceError, clearResourceError } from './resource-errors';
 
 /**
  * Parse a markdown resource file and return structured resource data
@@ -18,7 +19,7 @@ export const parseResource = async (
     const content = await Bun.file(resourcePath).text();
 
     // Parse frontmatter
-    const { frontmatter, body } = parseFrontmatter(content);
+    const { frontmatter, body } = parseFrontmatter(content, resourcePath);
 
     // Generate name from filename (fallback if no frontmatter title)
     const fileName = basename(resourcePath, '.md');

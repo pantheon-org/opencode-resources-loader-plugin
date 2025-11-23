@@ -275,5 +275,15 @@ export const ResourceLoaderPlugin: Plugin = async (ctx) => {
     },
   });
 
+  // Expose resource errors registry
+  tools.resource_errors = tool({
+    description: 'List resource validation errors (most recent first)',
+    args: {},
+    execute: async () => {
+      const { listResourceErrors } = await import('./parse/resource-errors');
+      return JSON.stringify(listResourceErrors());
+    },
+  });
+
   return { tool: tools };
 };

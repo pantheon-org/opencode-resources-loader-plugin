@@ -1,41 +1,22 @@
 import { Frontmatter } from '../types';
 import yaml from 'yaml';
+import { validateFrontmatter } from './frontmatter.schema';
+import { addResourceError, clearResourceError } from './resource-errors';
 
 /**
- * Parse YAML frontmatter from markdown content
+ * Parse YAML frontmatter from markdown content.
  *
- * Extracts and parses YAML frontmatter blocks from markdown files.
- * Frontmatter must be enclosed in triple-dash markers (---) at the start of the file.
+ * Looks for a YAML frontmatter block at the top of the file delimited by
+ * triple dashes (---). Returns the parsed frontmatter object when present
+ * and valid, otherwise returns null and the original content as body.
  *
- * @param content - Raw markdown content including frontmatter
+ * @param content - Raw markdown content including optional frontmatter
+ * @param filePath - Optional file path used for error reporting
  * @returns Object with parsed frontmatter (or null) and body content
- *
- * @example
- * const { frontmatter, body } = parseFrontmatter(markdownContent);
- * if (frontmatter) {
- *   console.log('Tags:', frontmatter.tags);
- *   console.log('Category:', frontmatter.category);
- * }
- *
- * @remarks
- * Expected format:
- * ```markdown
- * ---
- * description: Resource description
- * type: checklist
- * tags: [api, documentation]
- * ---
- *
- * # Content here
- * ```
- *
- * Error handling:
- * - Invalid YAML: Returns null frontmatter, logs warning
- * - Missing frontmatter: Returns null frontmatter, full content as body
- * - Parse errors are non-fatal, allowing resource to still be loaded
  */
 export const parseFrontmatter = (
   content: string,
+  filePath?: string,
 ): {
   frontmatter: Frontmatter | null;
   body: string;
@@ -46,8 +27,32 @@ export const parseFrontmatter = (
   }
 
   try {
-    const frontmatter = yaml.parse(match[1]) as Frontmatter;
-    return { frontmatter, body: match[2] };
+    const parsed = yaml.parse(match[1]);
+
+    // Validate parsed frontmatter using zod schema
+    const validation = validateFrontmatter(parsed);
+    if (validation.valid) {
+      // Valid frontmatter — clear any previous error entry
+      if (filePath) {
+        try {
+          clearResourceError(filePath);
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      // Cast to Frontmatter for downstream code compatibility
+      return { frontmatter: validation.data as Frontmatter, body: match[2] };
+    }
+
+    // Validation failed: record the error and return null frontmatter (non-fatal)
+    console.warn(`Frontmatter validation failed:`, validation.errors);
+    try {
+      addResourceError(filePath || 'unknown', validation.errors as unknown[]);
+    } catch (e) {
+      // ignore
+    }
+    return { frontmatter: null, body: content };
   } catch (error) {
     console.warn(
       `Failed to parse frontmatter:`,

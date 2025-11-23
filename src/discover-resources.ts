@@ -20,7 +20,6 @@ import { parseResource } from './parse';
  * );
  * console.log(`Discovered ${resources.length} resources`);
  *
- * @remarks
  * - Scans recursively for .md files in each type directory
  * - Handles missing directories gracefully (ENOENT)
  * - Detects and warns about duplicate tool names

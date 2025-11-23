@@ -55,7 +55,6 @@ const indexByNameTokens = (index: ResourceIndex, resource: Resource): void => {
  * const checklists = index.byType.get('checklist');
  * const apiResources = index.byTag.get('api');
  *
- * @remarks
  * Index structure:
  * - byType: Fast type-based filtering
  * - byCategory: Category-based filtering

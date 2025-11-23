@@ -27,8 +27,8 @@ import { Frontmatter, Resource, SearchResult } from '../types';
  * const result = calculateRelevanceScore(resource, 'api security', frontmatter);
  * console.log(`Score: ${result.score}, Matched: ${result.matchedFields.join(', ')}`);
  *
- * @remarks
  * Scoring is additive - multiple matches increase total score.
+
  * Higher scores indicate better relevance.
  * Content matches include contextual snippets.
  */
