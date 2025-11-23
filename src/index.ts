@@ -74,7 +74,7 @@ export const ResourceLoaderPlugin: Plugin = async (ctx) => {
     tools[resource.toolName] = tool({
       description: `[${resource.type}] ${resource.description}`,
       args: {}, // No args for MVP - can add section args later
-      execute: async (args, toolCtx) => {
+      execute: async (_args, toolCtx) => {
         // Check resource size
         if (resource.content.length > MAX_SAFE_SIZE) {
           return JSON.stringify({

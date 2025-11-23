@@ -39,7 +39,7 @@ function hasFrontmatter(content) {
 /**
  * Add frontmatter to markdown content if missing
  */
-function addFrontmatter(content, filename) {
+function addFrontmatter(content) {
   if (hasFrontmatter(content)) {
     return content;
   }

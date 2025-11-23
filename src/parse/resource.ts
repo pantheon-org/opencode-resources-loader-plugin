@@ -3,7 +3,7 @@ import { Resource, ResourceType } from '../types';
 import { parseFrontmatter } from '../parse/frontmatter';
 import { extractDescription } from '../extract/description';
 import { generateToolName } from '../generate-tool-name';
-import { addResourceError, clearResourceError } from './resource-errors';
+import { addResourceError } from './resource-errors';
 
 /**
  * Parse a markdown resource file and return structured resource data
@@ -18,8 +18,19 @@ export const parseResource = async (
     // Read file
     const content = await Bun.file(resourcePath).text();
 
-    // Parse frontmatter
-    const { frontmatter, body } = parseFrontmatter(content, resourcePath);
+    // Parse frontmatter (returns errors when invalid)
+    const { frontmatter, errors } = parseFrontmatter(content, resourcePath);
+
+    // If frontmatter exists but is invalid, skip indexing and record error
+    if (errors && errors.length > 0) {
+      console.warn(`Skipping resource with invalid frontmatter: ${resourcePath}`);
+      try {
+        addResourceError(resourcePath, errors);
+      } catch (e) {
+        // ignore
+      }
+      return null;
+    }
 
     // Generate name from filename (fallback if no frontmatter title)
     const fileName = basename(resourcePath, '.md');
