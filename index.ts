@@ -1,0 +1,1 @@
+export { ResourceLoaderPlugin } from './src';
