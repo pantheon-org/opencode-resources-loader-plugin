@@ -22,9 +22,8 @@ import { ResourceIndex, ResourceType, SearchResult } from './types';
  * // Search within specific type
  * const checklists = searchResources(index, 'security', 'checklist', 5);
  *
- * @remarks
  * - Query is sanitized: special characters removed, trimmed
- * - Long queries (>100 chars) are truncated
+ * - Long queries (\>100 chars) are truncated
  * - Empty/invalid queries return empty array
  * - Scoring: exact name (20), tags (15), description (5), content (2)
  */
