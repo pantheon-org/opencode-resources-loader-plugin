@@ -28,8 +28,10 @@ const BASE_PATH = '/opencode-warcraft-notifications';
 // Matches: href="/something/" but not href="/opencode-warcraft-notifications/something/"
 // Also matches: href="/something/#anchor" and href="/"
 // But not href="/opencode-warcraft-notifications" (exact match)
+// Match href="/..." that does not already include the base path
+// Allow anchors and query strings; preserve file extensions. Exclude protocol-relative and external links.
 const INTERNAL_LINK_PATTERN =
-  /href="(\/(?!opencode-warcraft-notifications(?:\/|"|$))(?:[^"#\s][^"]*?)?)"/g;
+  /href="(\/(?!opencode-warcraft-notifications(?:\/|"|$))(?:[^"\s]*?))"/g;
 
 /**
  * Fix links in a single HTML file
@@ -51,11 +53,13 @@ async function fixLinksInFile(filePath) {
         return match;
       }
 
-      // If path is base path without trailing slash, add trailing slash
+      // If path is exactly base path, ensure trailing slash
       if (path === BASE_PATH) {
         return `href="${BASE_PATH}/"`;
       }
 
+      // Preserve anchors and query strings while prefixing base path
+      // e.g. "/foo#bar" -> "/base/foo#bar"
       modified = true;
       return `href="${BASE_PATH}${path}"`;
     });
