@@ -1,0 +1,32 @@
+name: Validate Resources
+
+on:
+  pull_request:
+    paths:
+      - '.opencode/**'
+      - 'src/**'
+      - 'scripts/**'
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  validate-frontmatter:
+    name: Validate frontmatter and markdown
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: '1'
+
+      - name: Install dependencies (bun)
+        run: bun install --production=false
+
+      - name: Run frontmatter validator (with Bun)
+        run: bun ./scripts/validate-frontmatter.ts --changed-only
