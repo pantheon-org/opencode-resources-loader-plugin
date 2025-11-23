@@ -461,7 +461,7 @@ tags: [api, rest, graphql, openapi, documentation]
 ---
 ```
 
-See [Frontmatter Schema](../../docs/frontmatter-schema.md) for complete documentation.
+See [Frontmatter Schema](../docs/frontmatter-schema.md) for complete documentation.
 
 ## Migration
 
