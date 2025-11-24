@@ -1,6 +1,6 @@
 {
   "name": "@pantheon-ai/opencode-resources-loader",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Resources Loader plugin for OpenCode",
   "keywords": [
     "opencode",
