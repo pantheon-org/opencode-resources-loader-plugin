@@ -153,12 +153,26 @@ resource_list({ category: 'Documentation' });
 resource_list({ tag: 'api' });
 ```
 
-### resource_search
+### resource_search (tool)
 
-Search with intelligent relevance scoring.
+Search resources by keyword with intelligent relevance scoring. This tool performs a full-text, multi-field search across resource names, tool names, tags, descriptions, and content.
+
+Arguments and validation:
+
+- `query` (required): Non-empty search string (case-insensitive). An empty query will be rejected.
+- `type` (optional): Filter by resource type (agent, checklist, command, knowledge-base, task, template, all). Defaults to `all` when omitted.
+- `max_results` (optional): Maximum number of results to return. Defaults to `10`.
+
+Cache semantics:
+
+- Cache key format: `${query}:${type || 'all'}:${max_results}`
+- Cache TTL: 5 minutes (300000 ms). Cached responses (including cached empty results) are returned for this duration.
+- Note: cached empty searches now return the same no-results response shape as non-cached empty searches. This ensures a consistent response shape for consumers and tests (see PR #6).
+
+Usage examples:
 
 ```typescript
-// Search across all fields
+// Search by keyword across all fields
 resource_search({ query: 'api documentation' });
 
 // Search within specific type
@@ -167,6 +181,57 @@ resource_search({ query: 'deployment', type: 'task' });
 // Limit results
 resource_search({ query: 'security', max_results: 5 });
 ```
+
+Example successful response (formatted):
+
+```json
+{
+  "count": 2,
+  "results": [
+    {
+      "score": 57,
+      "toolName": "checklist_api_documentation",
+      "name": "API Documentation Checklist",
+      "type": "checklist",
+      "description": "Checklist for producing API documentation",
+      "category": "Documentation",
+      "tags": ["api", "documentation"],
+      "matchedFields": ["name", "tags", "description"],
+      "snippet": "...comprehensive API documentation checklist for REST and GraphQL..."
+    },
+    {
+      "score": 34,
+      "toolName": "knowledge_base_api_examples",
+      "name": "API Examples",
+      "type": "knowledge-base",
+      "description": "Sample API requests and patterns",
+      "category": "Development",
+      "tags": ["api", "examples"],
+      "matchedFields": ["content"],
+      "snippet": "...example request showing authentication headers..."
+    }
+  ]
+}
+```
+
+Example no-results response (returned for both cached and non-cached empty searches):
+
+```json
+{
+  "results": [],
+  "message": "No resources found matching 'documentation'",
+  "suggestions": [
+    "Try broader search terms",
+    "Check spelling",
+    "Use resource_list({ type: 'all' }) to see all available resources"
+  ],
+  "availableCategories": []
+}
+```
+
+Why this matters
+
+- Returning a consistent shape for empty responses (cached or not) prevents consumer and test breakage when callers assume a fixed schema. See the fix in PR #6 which merged into `fix/docs-linking-robustness`.
 
 ### resource_info
 

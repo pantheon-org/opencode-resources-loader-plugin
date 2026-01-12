@@ -243,17 +243,23 @@ resource_list({ type: 'all' });
 
 **Performance:** Fast, low context impact (metadata only)
 
-### resource_search
+### resource_search (tool)
 
-Search resources by keyword with relevance scoring.
+Search resources by keyword with multi-field relevance scoring. The tool accepts the following arguments and performs input validation (non-empty `query` required).
 
-**Arguments:**
+Arguments and validation:
 
-- `query` (required): Search query (case-insensitive)
-- `type` (optional): Filter by type
-- `max_results` (optional): Maximum results to return (default: 10)
+- `query` (required): Non-empty search string (case-insensitive). Empty queries are rejected.
+- `type` (optional): Resource type filter (agent, checklist, command, knowledge-base, task, template, all). Defaults to `all` when omitted.
+- `max_results` (optional): Maximum number of results to return. Defaults to `10`.
 
-**Usage:**
+Cache details:
+
+- Cache key format: `${query}:${type || 'all'}:${max_results}`
+- Cache TTL: 5 minutes (300000 ms)
+- Cached empty results now return the same no-results response shape as non-cached empty searches for consistency (see PR #6).
+
+Usage:
 
 ```typescript
 // Search by keyword across all fields
@@ -266,9 +272,45 @@ resource_search({ query: 'deployment', type: 'task' });
 resource_search({ query: 'security', max_results: 5 });
 ```
 
-**Performance:** Fast (<100ms for 100+ resources), cached (5-min TTL)
+Example successful response:
 
-**Scoring:** Multi-field relevance scoring (exact name: 20, tags: 15, description: 5, content: 2)
+```json
+{
+  "count": 1,
+  "results": [
+    {
+      "score": 50,
+      "toolName": "checklist_api_documentation",
+      "name": "API Documentation Checklist",
+      "type": "checklist",
+      "description": "Checklist for producing API documentation",
+      "category": "Documentation",
+      "tags": ["api", "documentation"],
+      "matchedFields": ["name", "tags"],
+      "snippet": "...API documentation checklist with REST and GraphQL examples..."
+    }
+  ]
+}
+```
+
+Example no-results response:
+
+```json
+{
+  "results": [],
+  "message": "No resources found matching 'documentation'",
+  "suggestions": [
+    "Try broader search terms",
+    "Check spelling",
+    "Use resource_list({ type: 'all' }) to see all available resources"
+  ],
+  "availableCategories": []
+}
+```
+
+Performance: Fast (<100ms for 100+ resources), cached (5-min TTL)
+
+Scoring: Multi-field relevance scoring (exact name: 20, tags: 15, description: 5, content: 2)
 
 ### resource_info
 
